@@ -14,20 +14,33 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import {
+  getDefaultDashboardRoute,
+  isValidRedirectForRole,
+  UserRole,
+} from "@/lib/authUtils";
+
 import { loginAction } from "@/service/auth.service";
+import { AuthUser } from "@/types/auth.types";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginForm() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  // 🔥 Dev credentials
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+
+  const redirectFromUrl = searchParams.get("redirect");
+
   const credentials = {
     student: {
       email: "alice@example.com",
@@ -48,26 +61,42 @@ export default function LoginForm() {
   });
 
   const form = useForm({
-    defaultValues: credentials.student, // default = student
+    defaultValues: credentials.student,
     onSubmit: async ({ value }) => {
       setServerError(null);
+
       try {
         const result = await mutateAsync(value);
+
         if (!result.success) {
           setServerError(result.message || "Login failed");
           return;
         }
+
+        const user = result.data?.user as AuthUser;
+        const role = user.role as UserRole;
+
+        let targetPath = getDefaultDashboardRoute(role);
+
+        if (
+          redirectFromUrl &&
+          isValidRedirectForRole(redirectFromUrl, role)
+        ) {
+          targetPath = redirectFromUrl;
+        }
+
+        router.push(targetPath);
       } catch (error: unknown) {
         const message =
           error instanceof Error
             ? error.message
             : "An unexpected error occurred";
+
         setServerError(`Login failed: ${message}`);
       }
     },
   });
 
-  // 🔥 Handle tab change
   const handleRoleChange = (role: "student" | "teacher" | "admin") => {
     form.setFieldValue("email", credentials[role].email);
     form.setFieldValue("password", credentials[role].password);
@@ -80,10 +109,9 @@ export default function LoginForm() {
           Welcome Back
         </CardTitle>
         <CardDescription>
-          Choose role & login instantly 
+          Choose role & login instantly
         </CardDescription>
 
-        {/* 🔥 Tabs */}
         <Tabs
           defaultValue="student"
           onValueChange={(value) =>
@@ -103,12 +131,10 @@ export default function LoginForm() {
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
-            e.stopPropagation();
             form.handleSubmit();
           }}
           className="space-y-4"
         >
-          {/* Email */}
           <form.Field
             name="email"
             validators={{ onChange: loginZodSchema.shape.email }}
@@ -124,7 +150,6 @@ export default function LoginForm() {
             )}
           </form.Field>
 
-          {/* Password */}
           <form.Field
             name="password"
             validators={{ onChange: loginZodSchema.shape.password }}

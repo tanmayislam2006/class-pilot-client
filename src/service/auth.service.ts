@@ -1,6 +1,7 @@
 "use server";
 
 import { env } from "@/env";
+import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/lib/authUtils";
 import { httpClient, HttpClientError } from "@/lib/httpClient";
 import { setToken } from "@/lib/tokenUtils";
 import { ApiResponse } from "@/types/api";
@@ -109,7 +110,7 @@ export const loginAction = async (
   redirectPath?: string,
 ): Promise<ApiResponse<LoginData>> => {
   const parsedPayload = loginZodSchema.safeParse(payload);
-
+  
   if (!parsedPayload.success) {
     const firstError =
       parsedPayload.error.issues[0]?.message || "Invalid input";
@@ -132,20 +133,6 @@ export const loginAction = async (
         setToken("accessToken", response.data.accessToken),
         setToken("refreshToken", response.data.refreshToken),
       ]);
-      const { role, needPasswordChange, email } =
-        response.data.user;
-      if (needPasswordChange) {
-        redirect(`/reset-password?email=${email}`);
-      }
-      //  else {
-      //   // redirect(redirectPath || "/dashboard");
-      //   const targetPath =
-      //     redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
-      //       ? redirectPath
-      //       : getDefaultDashboardRoute(role as UserRole);
-
-      //   redirect(targetPath);
-      // }
     }
 
     return response;
