@@ -86,7 +86,7 @@ export default function DashboardLayout({
           />
 
           <main className="flex-1 px-4 py-5 md:px-6 md:py-6">
-            <div className="mx-auto flex h-full min-h-[calc(100vh-7rem)] w-full max-w-7xl flex-col rounded-[28px] border border-border/70 bg-card/90 p-4 shadow-[0_24px_80px_-36px_rgba(15,23,42,0.35)] backdrop-blur md:p-6">
+            <div className="mx-auto flex h-full min-h-[calc(100vh-7rem)] w-full max-w-7xl flex-col rounded-[32px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(252,251,255,0.90))] p-4 shadow-[0_28px_90px_-42px_rgba(15,23,42,0.35)] backdrop-blur md:p-6">
               {children}
             </div>
           </main>
