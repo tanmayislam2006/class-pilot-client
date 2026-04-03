@@ -1,14 +1,12 @@
 "use server";
 
 import { env } from "@/env";
-import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/lib/authUtils";
 import { httpClient, HttpClientError } from "@/lib/httpClient";
 import { setToken } from "@/lib/tokenUtils";
 import { ApiResponse } from "@/types/api";
 import { LoginData } from "@/types/auth.types";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function getNewTokensWithRefreshToken(
   refreshToken: string,

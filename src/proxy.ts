@@ -6,7 +6,6 @@ import { jwtUtils } from "./lib/jwtUtils";
 import { isTokenExpiringSoon } from "./lib/tokenUtils";
 import {
   getNewTokensWithRefreshToken,
-  getUserInfo,
 } from "./service/auth.service";
 import {
   getDefaultDashboardRoute,
