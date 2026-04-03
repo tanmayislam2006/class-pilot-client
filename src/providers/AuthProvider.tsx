@@ -4,12 +4,11 @@ import {
   createContext,
   type Dispatch,
   type SetStateAction,
-  useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useState,
 } from "react";
-import { usePathname } from "next/navigation";
 
 import { isUserRole, type UserRole } from "@/lib/authUtils";
 import type { AuthUser } from "@/types/auth.types";
@@ -47,12 +46,11 @@ export function AuthProvider({
   children: React.ReactNode;
   initialUser?: AuthUser | null;
 }) {
-  const pathname = usePathname();
   const [user, setUser] = useState<AuthUser | null>(initialUser);
   const [loading, setLoading] = useState(initialUser === null);
   const [bootstrapped, setBootstrapped] = useState(initialUser !== null);
 
-  const syncAuth = useCallback(async () => {
+  const syncAuth = useEffectEvent(async () => {
     const shouldShowLoader = !bootstrapped && user === null;
 
     if (shouldShowLoader) {
@@ -71,11 +69,15 @@ export function AuthProvider({
       }
       setLoading(false);
     }
-  }, [bootstrapped, user]);
+  });
 
   useEffect(() => {
+    if (bootstrapped) {
+      return;
+    }
+
     void syncAuth();
-  }, [pathname, syncAuth]);
+  }, [bootstrapped]);
 
   const value: AuthContextValue = {
     user,
