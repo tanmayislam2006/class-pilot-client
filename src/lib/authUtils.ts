@@ -1,17 +1,10 @@
 export type UserRole = "ADMIN" | "TEACHER" | "STUDENT";
-export type AppRole = "admin" | "teacher" | "student";
 export type RouteOwner = UserRole | "COMMON";
 
 const roleToDashboardRoute: Record<UserRole, string> = {
   ADMIN: "/admin/dashboard",
   TEACHER: "/teacher/dashboard",
   STUDENT: "/dashboard",
-};
-
-const normalizedRoleMap: Record<AppRole, UserRole> = {
-  admin: "ADMIN",
-  teacher: "TEACHER",
-  student: "STUDENT",
 };
 
 export type RouteConfig = {
@@ -66,39 +59,20 @@ export const getRouteOwner = (
   return null;
 };
 
-export const normalizeRole = (role?: string | null): AppRole | null => {
-  switch (role?.toUpperCase()) {
-    case "ADMIN":
-      return "admin";
-    case "TEACHER":
-      return "teacher";
-    case "STUDENT":
-      return "student";
-    default:
-      return null;
-  }
+export const isUserRole = (role?: string | null): role is UserRole => {
+  return role === "ADMIN" || role === "TEACHER" || role === "STUDENT";
 };
 
-export const formatRoleLabel = (role?: UserRole | AppRole | null) => {
-  const normalizedRole =
-    typeof role === "string" && role === role.toUpperCase()
-      ? normalizeRole(role)
-      : role;
-
-  if (!normalizedRole) {
+export const formatRoleLabel = (role?: UserRole | null) => {
+  if (!role) {
     return "Unknown role";
   }
 
-  return normalizedRole.charAt(0).toUpperCase() + normalizedRole.slice(1);
+  return role.charAt(0) + role.slice(1).toLowerCase();
 };
 
-export const getDefaultDashboardRoute = (role: UserRole | AppRole) => {
-  const normalizedRole =
-    role === role.toLowerCase()
-      ? normalizedRoleMap[role as AppRole]
-      : (role as UserRole);
-
-  return roleToDashboardRoute[normalizedRole] ?? "/";
+export const getDefaultDashboardRoute = (role: UserRole) => {
+  return roleToDashboardRoute[role] ?? "/";
 };
 
 export const isValidRedirectForRole = (

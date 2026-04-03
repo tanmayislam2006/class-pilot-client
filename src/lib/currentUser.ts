@@ -2,35 +2,31 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
-import { env } from "@/env";
+import { httpClient, HttpClientError } from "@/lib/httpClient";
+import type { ApiResponse } from "@/types/api";
 import type { AuthUser } from "@/types/auth.types";
 
 export async function getCurrentUser(): Promise<AuthUser | null> {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
-    const sessionToken = cookieStore.get("better-auth.session_token")?.value;
 
     if (!accessToken) {
       return null;
     }
 
-    const response = await fetch(`${env.NEXT_PUBLIC_URL}/auth/me`, {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `accessToken=${accessToken}; better-auth.session_token=${sessionToken ?? ""}`,
-      },
-    });
+    const response = await httpClient.get<ApiResponse<AuthUser>>("/auth/me");
 
-    if (!response.ok) {
+    if (!response.success || !response.data) {
       return null;
     }
 
-    const payload = (await response.json()) as { data?: AuthUser | null };
-    return payload.data ?? null;
+    return response.data;
   } catch (error) {
+    if (error instanceof HttpClientError && error.status === 401) {
+      return null;
+    }
+
     console.error("Error fetching current user:", error);
     return null;
   }

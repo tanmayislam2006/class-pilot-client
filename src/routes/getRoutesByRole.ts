@@ -1,17 +1,17 @@
-import { type AppRole } from "@/lib/authUtils";
+import { type UserRole } from "@/lib/authUtils";
 
 import { adminRoutes } from "./adminRoutes";
 import { studentRoutes } from "./studentRoutes";
 import { teacherRoutes } from "./teacherRoutes";
 import type { AppRoute } from "./types";
 
-export function getRoutesByRole(role: AppRole): AppRoute[] {
+export function getRoutesByRole(role: UserRole): AppRoute[] {
   switch (role) {
-    case "admin":
+    case "ADMIN":
       return adminRoutes;
-    case "teacher":
+    case "TEACHER":
       return teacherRoutes;
-    case "student":
+    case "STUDENT":
       return studentRoutes;
     default:
       return [];

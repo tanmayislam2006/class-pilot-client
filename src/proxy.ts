@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { env } from "./env";
+import { getNewTokensWithRefreshToken } from "./lib/serverAuth";
 import { jwtUtils } from "./lib/jwtUtils";
 
 import { isTokenExpiringSoon } from "./lib/tokenUtils";
-import {
-  getNewTokensWithRefreshToken,
-} from "./service/auth.service";
 import {
   getDefaultDashboardRoute,
   getRouteOwner,

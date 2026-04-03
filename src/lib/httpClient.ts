@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import { getNewTokensWithRefreshToken } from "./serverAuth";
 import { isTokenExpired, isTokenExpiringSoon } from "./tokenUtils";
-import { getNewTokensWithRefreshToken } from "@/service/auth.service";
 
 // constants
 const API_BASE_URL = env.NEXT_PUBLIC_URL;
@@ -32,7 +32,7 @@ export class HttpClientError extends Error {
   }
 }
 
-let refreshPromise: Promise<void> | null| boolean = null;
+let refreshPromise: Promise<boolean> | null = null;
 
 async function refreshServerTokensIfNeeded(
   accessToken: string,
@@ -47,13 +47,17 @@ async function refreshServerTokensIfNeeded(
 
   // Singleton lock: if a refresh is already in progress, wait for it
   if (!refreshPromise) {
-    refreshPromise = await getNewTokensWithRefreshToken(refreshToken).finally(() => {
+    refreshPromise = getNewTokensWithRefreshToken(refreshToken).finally(() => {
       refreshPromise = null;
     });
   }
 
   try {
-    await refreshPromise;
+    const refreshed = await refreshPromise;
+
+    if (!refreshed) {
+      throw new Error("Refresh token request did not return new tokens");
+    }
   } catch (error) {
     console.error("Token refresh failed:", error);
     // Throw structured error so React Query onError can redirect to login

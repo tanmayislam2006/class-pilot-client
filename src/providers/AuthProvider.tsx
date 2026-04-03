@@ -4,19 +4,19 @@ import {
   createContext,
   type Dispatch,
   type SetStateAction,
+  useCallback,
   useContext,
   useEffect,
-  useEffectEvent,
   useState,
 } from "react";
 import { usePathname } from "next/navigation";
 
-import { type AppRole, normalizeRole } from "@/lib/authUtils";
+import { isUserRole, type UserRole } from "@/lib/authUtils";
 import type { AuthUser } from "@/types/auth.types";
 
 type AuthContextValue = {
   user: AuthUser | null;
-  role: AppRole | null;
+  role: UserRole | null;
   loading: boolean;
   refreshAuth: () => Promise<void>;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -52,7 +52,7 @@ export function AuthProvider({
   const [loading, setLoading] = useState(initialUser === null);
   const [bootstrapped, setBootstrapped] = useState(initialUser !== null);
 
-  const syncAuth = useEffectEvent(async () => {
+  const syncAuth = useCallback(async () => {
     const shouldShowLoader = !bootstrapped && user === null;
 
     if (shouldShowLoader) {
@@ -71,15 +71,15 @@ export function AuthProvider({
       }
       setLoading(false);
     }
-  });
+  }, [bootstrapped, user]);
 
   useEffect(() => {
     void syncAuth();
-  }, [pathname]);
+  }, [pathname, syncAuth]);
 
   const value: AuthContextValue = {
     user,
-    role: normalizeRole(user?.role),
+    role: isUserRole(user?.role) ? user.role : null,
     loading,
     refreshAuth: syncAuth,
     setLoading,
