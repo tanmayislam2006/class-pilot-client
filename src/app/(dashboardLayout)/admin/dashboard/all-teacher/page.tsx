@@ -1,15 +1,14 @@
-import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
-import { adminRoutes } from "@/routes";
+import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
+
+import AdminTeachersTable from "./_components/AdminTeachersTable";
 
 export default function AdminAllTeacher() {
   return (
-    <DashboardFeaturePage
-      currentHref="/admin/dashboard/all-teacher"
+    <DashboardResourcePage
       title="Manage teacher records from a polished admin workspace."
       eyebrow="Admin workspace"
       description="This route is prepared for staff tables, onboarding actions, and status management with a cleaner operational interface."
-      routes={adminRoutes}
-      stats={[
+      metrics={[
         {
           label: "Total Teachers",
           value: "24",
@@ -31,23 +30,8 @@ export default function AdminAllTeacher() {
           note: "Staff allocation remains strong across departments.",
         },
       ]}
-      steps={[
-        {
-          title: "Review teacher list and status",
-          description:
-            "Use this page for searchable records, filters, and account-level quick actions.",
-        },
-        {
-          title: "Support onboarding and updates",
-          description:
-            "The structure is ready for add, edit, and detail view flows.",
-        },
-        {
-          title: "Track operational coverage",
-          description:
-            "Teacher assignments and platform activity can surface here without redesigning the route.",
-        },
-      ]}
-    />
+    >
+      <AdminTeachersTable />
+    </DashboardResourcePage>
   );
 }

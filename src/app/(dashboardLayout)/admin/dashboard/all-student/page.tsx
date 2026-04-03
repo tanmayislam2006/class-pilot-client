@@ -1,15 +1,14 @@
-import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
-import { adminRoutes } from "@/routes";
+import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
+
+import AdminStudentsTable from "./_components/AdminStudentsTable";
 
 export default function AdminAllStudent() {
   return (
-    <DashboardFeaturePage
-      currentHref="/admin/dashboard/all-student"
+    <DashboardResourcePage
       title="Oversee student records and enrollment activity clearly."
       eyebrow="Admin workspace"
       description="The students area now has a proper structure for enrollment tables, cohort filters, and profile operations."
-      routes={adminRoutes}
-      stats={[
+      metrics={[
         {
           label: "Total Students",
           value: "480",
@@ -31,23 +30,8 @@ export default function AdminAllStudent() {
           note: "Student continuity remains strong this term.",
         },
       ]}
-      steps={[
-        {
-          title: "Review enrollment at scale",
-          description:
-            "Use this route for searchable student lists, filtering, and profile-level actions.",
-        },
-        {
-          title: "Monitor cohort health",
-          description:
-            "Enrollment, billing, and engagement summaries can sit together in this same layout.",
-        },
-        {
-          title: "Act on exceptions fast",
-          description:
-            "The workspace leaves room for suspension, update, or support workflows later.",
-        },
-      ]}
-    />
+    >
+      <AdminStudentsTable />
+    </DashboardResourcePage>
   );
 }

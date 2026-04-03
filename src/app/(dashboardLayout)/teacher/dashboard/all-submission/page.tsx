@@ -1,15 +1,12 @@
-import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
-import { teacherRoutes } from "@/routes";
+import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
 
 export default function CheckAllSubmissionPage() {
   return (
-    <DashboardFeaturePage
-      currentHref="/teacher/dashboard/all-submission"
+    <DashboardResourcePage
       title="Review submissions and grading progress without clutter."
       eyebrow="Teacher workspace"
       description="Use this page for result tables, submission filters, and manual review workflows with a proper admin-grade layout."
-      routes={teacherRoutes}
-      stats={[
+      metrics={[
         {
           label: "Pending Review",
           value: "21",
@@ -31,23 +28,7 @@ export default function CheckAllSubmissionPage() {
           note: "Average review time is strong and can be improved further.",
         },
       ]}
-      steps={[
-        {
-          title: "Prioritize pending submissions",
-          description:
-            "A real table or grading queue can drop into this page with almost no layout churn.",
-        },
-        {
-          title: "Open and assess answers",
-          description:
-            "This route is shaped for score forms, feedback panels, and moderation actions.",
-        },
-        {
-          title: "Track completion pace",
-          description:
-            "Use visible metrics to keep grading balanced across your classes.",
-        },
-      ]}
-    />
+    >
+    </DashboardResourcePage>
   );
 }

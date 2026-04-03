@@ -1,15 +1,14 @@
-import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
-import { adminRoutes } from "@/routes";
+import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
+
+import AdminBadgesTable from "./_components/AdminBadgesTable";
 
 export default function AdminAllBadgePage() {
   return (
-    <DashboardFeaturePage
-      currentHref="/admin/dashboard/all-badge"
+    <DashboardResourcePage
       title="Manage badge programs and recognition flows with clarity."
       eyebrow="Admin workspace"
       description="Your badge route now looks like a real product surface, ready for reward catalogs, status tracking, and edit actions."
-      routes={adminRoutes}
-      stats={[
+      metrics={[
         {
           label: "Active Badges",
           value: "11",
@@ -31,23 +30,8 @@ export default function AdminAllBadgePage() {
           note: "Recognition is helping overall platform activity.",
         },
       ]}
-      steps={[
-        {
-          title: "Review badge inventory",
-          description:
-            "Catalogs, categories, and status labels can all drop into this layout smoothly.",
-        },
-        {
-          title: "Update rules and availability",
-          description:
-            "This route is ready for badge edit forms and award condition management.",
-        },
-        {
-          title: "Track recognition impact",
-          description:
-            "Performance and adoption analytics can be layered in without structural changes.",
-        },
-      ]}
-    />
+    >
+      <AdminBadgesTable />
+    </DashboardResourcePage>
   );
 }
