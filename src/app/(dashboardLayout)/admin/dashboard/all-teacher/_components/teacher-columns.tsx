@@ -56,8 +56,8 @@ export const teacherColumns: DataTableColumn<AdminTeacherRow>[] = [
     ),
   },
   {
-    id: "joinedAt",
+    id: "createdAt",
     header: "Joined",
-    cell: (row) => <span className="text-muted-foreground">{row.joinedAt}</span>,
+    cell: (row) => <span className="text-muted-foreground">{row.createdAt}</span>,
   },
 ];

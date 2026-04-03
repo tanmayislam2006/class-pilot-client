@@ -23,9 +23,9 @@ export default function AdminDashboardPage() {
           icon: Users,
         },
         {
-          label: "Badge Programs",
+          label: "Active Batches",
           value: "11",
-          note: "Recognition campaigns are active",
+          note: "Teaching operations are spread across active batches",
           icon: Award,
         },
         {

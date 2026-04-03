@@ -1,8 +1,35 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+
 import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
+import { adminQueryKeys } from "@/queries/admin";
+import { adminService } from "@/service/admin.service";
 
 import AdminStudentsTable from "./_components/AdminStudentsTable";
 
-export default function AdminAllStudent() {
+export default async function AdminAllStudent() {
+  const queryClient = new QueryClient();
+
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: adminQueryKeys.students,
+      queryFn: async () => {
+        const response = await adminService.getAllStudents();
+
+        if (!response.success) {
+          throw new Error(response.message || "Failed to load students");
+        }
+
+        return response;
+      },
+    });
+  } catch {
+    // Let the client query render the error state.
+  }
+
   return (
     <DashboardResourcePage
       title="Oversee student records and enrollment activity clearly."
@@ -31,7 +58,9 @@ export default function AdminAllStudent() {
         },
       ]}
     >
-      <AdminStudentsTable />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <AdminStudentsTable />
+      </HydrationBoundary>
     </DashboardResourcePage>
   );
 }

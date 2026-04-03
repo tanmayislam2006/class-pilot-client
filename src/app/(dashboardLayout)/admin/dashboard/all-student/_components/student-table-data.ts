@@ -1,48 +1,33 @@
+import type { Student } from "@/types/admin.types";
+
 export type AdminStudentRow = {
   batch: string;
   email: string;
-  feeStatus: "Paid" | "Due";
+  feeStatus: string;
   id: string;
   name: string;
   performance: string;
-  status: "Active" | "Suspended";
+  status: string;
 };
 
-export const adminStudentRows: AdminStudentRow[] = [
-  {
-    id: "S-2001",
-    name: "Ishrat Nabila",
-    email: "ishrat.nabila@student.classpilot.com",
-    batch: "Batch A1",
-    feeStatus: "Paid",
-    performance: "91%",
-    status: "Active",
-  },
-  {
-    id: "S-2002",
-    name: "Mehedi Hasan",
-    email: "mehedi.hasan@student.classpilot.com",
-    batch: "Batch A2",
-    feeStatus: "Due",
-    performance: "84%",
-    status: "Active",
-  },
-  {
-    id: "S-2003",
-    name: "Farzana Akter",
-    email: "farzana.akter@student.classpilot.com",
-    batch: "Batch B1",
-    feeStatus: "Paid",
-    performance: "88%",
-    status: "Active",
-  },
-  {
-    id: "S-2004",
-    name: "Rakibul Islam",
-    email: "rakibul.islam@student.classpilot.com",
-    batch: "Batch C1",
-    feeStatus: "Due",
-    performance: "72%",
-    status: "Suspended",
-  },
-];
+function formatStatus(status?: string) {
+  return status
+    ? `${status.slice(0, 1)}${status.slice(1).toLowerCase()}`
+    : "Unknown";
+}
+
+function deriveFeeStatus(feeCount?: number) {
+  return feeCount && feeCount > 0 ? "Recorded" : "Pending";
+}
+
+export function mapStudentToRow(student: Student): AdminStudentRow {
+  return {
+    id: student.id,
+    name: student.user.name,
+    email: student.user.email,
+    batch: student.batch?.name ?? "No batch",
+    feeStatus: deriveFeeStatus(student._count?.fees),
+    performance: `${student._count?.submissions ?? 0} submissions`,
+    status: formatStatus(student.user.status),
+  };
+}

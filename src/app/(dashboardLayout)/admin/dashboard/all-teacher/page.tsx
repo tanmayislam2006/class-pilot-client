@@ -1,8 +1,35 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+
 import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
+import { adminQueryKeys } from "@/queries/admin";
+import { adminService } from "@/service/admin.service";
 
 import AdminTeachersTable from "./_components/AdminTeachersTable";
 
-export default function AdminAllTeacher() {
+export default async function AdminAllTeacher() {
+  const queryClient = new QueryClient();
+
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: adminQueryKeys.teachers,
+      queryFn: async () => {
+        const response = await adminService.getAllTeachers();
+
+        if (!response.success) {
+          throw new Error(response.message || "Failed to load teachers");
+        }
+
+        return response;
+      },
+    });
+  } catch {
+    // Let the client query render the error state.
+  }
+
   return (
     <DashboardResourcePage
       title="Manage teacher records from a polished admin workspace."
@@ -31,7 +58,9 @@ export default function AdminAllTeacher() {
         },
       ]}
     >
-      <AdminTeachersTable />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <AdminTeachersTable />
+      </HydrationBoundary>
     </DashboardResourcePage>
   );
 }

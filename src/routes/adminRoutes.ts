@@ -1,4 +1,4 @@
-import { Award, GraduationCap, LayoutDashboard, Users } from "lucide-react";
+import { GraduationCap, Layers3, LayoutDashboard, Users } from "lucide-react";
 
 import type { AppRoute } from "./types";
 
@@ -19,8 +19,8 @@ export const adminRoutes: AppRoute[] = [
     icon: Users,
   },
   {
-    title: "Badges",
-    href: "/admin/dashboard/all-badge",
-    icon: Award,
+    title: "Batches",
+    href: "/admin/dashboard/all-batch",
+    icon: Layers3,
   },
 ];

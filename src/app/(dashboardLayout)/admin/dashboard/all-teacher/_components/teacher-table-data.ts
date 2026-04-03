@@ -1,48 +1,39 @@
+import type { Teacher } from "@/types/admin.types";
+
 export type AdminTeacherRow = {
   id: string;
   batches: number;
   email: string;
-  joinedAt: string;
+  createdAt: string;
   name: string;
   specialty: string;
-  status: "Active" | "On Leave";
+  status: string;
 };
 
-export const adminTeacherRows: AdminTeacherRow[] = [
-  {
-    id: "T-1001",
-    name: "Ayesha Rahman",
-    email: "ayesha.rahman@classpilot.com",
-    specialty: "Mathematics",
-    batches: 3,
-    status: "Active",
-    joinedAt: "12 Jan 2026",
-  },
-  {
-    id: "T-1002",
-    name: "Tanvir Hasan",
-    email: "tanvir.hasan@classpilot.com",
-    specialty: "Physics",
-    batches: 2,
-    status: "Active",
-    joinedAt: "03 Feb 2026",
-  },
-  {
-    id: "T-1003",
-    name: "Nusrat Jahan",
-    email: "nusrat.jahan@classpilot.com",
-    specialty: "Biology",
-    batches: 4,
-    status: "On Leave",
-    joinedAt: "24 Nov 2025",
-  },
-  {
-    id: "T-1004",
-    name: "Sabbir Ahmed",
-    email: "sabbir.ahmed@classpilot.com",
-    specialty: "Chemistry",
-    batches: 2,
-    status: "Active",
-    joinedAt: "17 Dec 2025",
-  },
-];
+function formatDate(value?: string) {
+  if (!value) return "Recently added";
+
+  return new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
+function formatStatus(status?: string) {
+  return status
+    ? `${status.slice(0, 1)}${status.slice(1).toLowerCase()}`
+    : "Unknown";
+}
+
+export function mapTeacherToRow(teacher: Teacher): AdminTeacherRow {
+  return {
+    id: teacher.id,
+    name: teacher.user.name,
+    email: teacher.user.email,
+    specialty: teacher.subject ?? teacher.subjects ?? teacher.bio ?? "General",
+    batches: teacher._count?.batches ?? 0,
+    status: formatStatus(teacher.user.status),
+    createdAt: formatDate(teacher.createdAt),
+  };
+}
