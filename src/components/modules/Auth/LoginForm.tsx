@@ -85,7 +85,8 @@ export default function LoginForm() {
           targetPath = redirectFromUrl;
         }
 
-        router.push(targetPath);
+        router.replace(targetPath);
+        router.refresh();
       } catch (error: unknown) {
         const message =
           error instanceof Error

@@ -1,9 +1,24 @@
-export type UserRole =  "ADMIN" | "TEACHER" | "STUDENT";
+export type UserRole = "ADMIN" | "TEACHER" | "STUDENT";
+export type AppRole = "admin" | "teacher" | "student";
+export type RouteOwner = UserRole | "COMMON";
+
+const roleToDashboardRoute: Record<UserRole, string> = {
+  ADMIN: "/admin/dashboard",
+  TEACHER: "/teacher/dashboard",
+  STUDENT: "/dashboard",
+};
+
+const normalizedRoleMap: Record<AppRole, UserRole> = {
+  admin: "ADMIN",
+  teacher: "TEACHER",
+  student: "STUDENT",
+};
 
 export type RouteConfig = {
   exact: string[];
   pattern: RegExp[];
 };
+
 export const authRoutes = [
   "/login",
   "/register",
@@ -43,7 +58,7 @@ export const isRouteMatches = (pathname: string, routes: RouteConfig) => {
 
 export const getRouteOwner = (
   pathname: string,
-):  "ADMIN" | "TEACHER" | "STUDENT"| "COMMON" | null => {
+): RouteOwner | null => {
   if (isRouteMatches(pathname, adminProtectedRoutes)) return "ADMIN";
   else if (isRouteMatches(pathname, teacherProtectedRoutes)) return "TEACHER";
   else if (isRouteMatches(pathname, studentProtectedRoutes)) return "STUDENT";
@@ -51,31 +66,54 @@ export const getRouteOwner = (
   return null;
 };
 
-export const getDefaultDashboardRoute = (role : UserRole) => {
-    if(role === "ADMIN") {
-        return "/admin/dashboard";
-    }
-    if(role === "TEACHER") {
-        return "/teacher/dashboard";
-    }
-    if(role === "STUDENT") {
-        return "/dashboard";
-    }
+export const normalizeRole = (role?: string | null): AppRole | null => {
+  switch (role?.toUpperCase()) {
+    case "ADMIN":
+      return "admin";
+    case "TEACHER":
+      return "teacher";
+    case "STUDENT":
+      return "student";
+    default:
+      return null;
+  }
+};
 
-    return "/";
-}
+export const formatRoleLabel = (role?: UserRole | AppRole | null) => {
+  const normalizedRole =
+    typeof role === "string" && role === role.toUpperCase()
+      ? normalizeRole(role)
+      : role;
 
-export const isValidRedirectForRole = (redirectPath : string, role : UserRole) => {
-  
-    const routeOwner = getRouteOwner(redirectPath);
+  if (!normalizedRole) {
+    return "Unknown role";
+  }
 
-    if(routeOwner === null || routeOwner === "COMMON"){
-        return true;
-    }
+  return normalizedRole.charAt(0).toUpperCase() + normalizedRole.slice(1);
+};
 
-    if(routeOwner === role){
-        return true;
-    }
+export const getDefaultDashboardRoute = (role: UserRole | AppRole) => {
+  const normalizedRole =
+    role === role.toLowerCase()
+      ? normalizedRoleMap[role as AppRole]
+      : (role as UserRole);
 
-    return false;
-}
+  return roleToDashboardRoute[normalizedRole] ?? "/";
+};
+
+export const isValidRedirectForRole = (
+  redirectPath: string,
+  role: UserRole,
+) => {
+  const routeOwner = getRouteOwner(redirectPath);
+
+  if (routeOwner === null || routeOwner === "COMMON") {
+    return true;
+  }
+
+  if (routeOwner === role) {
+    return true;
+  }
+
+  return false;
+};

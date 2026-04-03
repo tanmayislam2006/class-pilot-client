@@ -1,12 +1,12 @@
 "use server";
 
-import { env } from "@/env";
+import { getCurrentUser } from "@/lib/currentUser";
 import { httpClient, HttpClientError } from "@/lib/httpClient";
 import { setToken } from "@/lib/tokenUtils";
 import { ApiResponse } from "@/types/api";
 import { LoginData } from "@/types/auth.types";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
-import { cookies } from "next/headers";
+import { env } from "@/env";
 
 export async function getNewTokensWithRefreshToken(
   refreshToken: string,
@@ -71,35 +71,7 @@ export async function getNewTokensWithRefreshToken(
 
 
 export async function getUserInfo() {
-    try {
-        const cookieStore = await cookies();
-        const accessToken = cookieStore.get("accessToken")?.value;
-        const sessionToken = cookieStore.get("better-auth.session_token")?.value
-
-        if (!accessToken) {
-            return null;
-        }
-
-        const res = await fetch(`${env.NEXT_PUBLIC_URL}/auth/me`, {
-            method: "GET",
-            cache: "no-store",
-            headers: {
-                "Content-Type": "application/json",
-                Cookie: `accessToken=${accessToken}; better-auth.session_token=${sessionToken}`
-            }
-        });
-
-        if (!res.ok) {
-            console.error("Failed to fetch user info:", res.status, res.statusText);
-            return null;
-        }
-
-        const { data } = await res.json();
-        return data;
-    } catch (error) {
-        console.error("Error fetching user info:", error);
-        return null;
-    }
+  return getCurrentUser();
 }
 
 
