@@ -319,6 +319,40 @@ export interface CreateQuizPayload {
   };
 }
 
+export interface UpdateQuizPayload {
+  quiz: {
+    title?: string;
+    description?: string;
+    duration?: number;
+    dueDate?: string;
+  };
+}
+
+export interface AddQuizQuestionPayload {
+  question: {
+    questionText: string;
+    optionA: string;
+    optionB: string;
+    optionC: string;
+    optionD: string;
+    correctAnswer: string;
+    point?: number;
+  };
+}
+
+
+export interface UpdateQuizQuestionPayload {
+  question: {
+    questionText?: string;
+    optionA?: string;
+    optionB?: string;
+    optionC?: string;
+    optionD?: string;
+    correctAnswer?: string;
+    point?: number;
+  };
+}
+
 // ==============================
 // GLOBAL QUIZZES (API GET /quiz/my-all-quizzes)
 // ==============================
