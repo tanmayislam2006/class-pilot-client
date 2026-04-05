@@ -7,6 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { teacherQueryKeys, fetchBatchStudentsQuery } from "@/queries/teacher";
 import { batchStudentColumns } from "./batch-student-columns";
+import GenerateFeesModal from "./GenerateFeesModal";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -67,13 +68,19 @@ export default function BatchStudentsTable({ batchId }: BatchStudentsTableProps)
         }}
         emptyMessage="No students are enrolled in this batch yet."
         toolbarAction={
-          <Button
-            variant="outline"
-            onClick={() => void refetch()}
-            disabled={isPending || isFetching}
-          >
-            {isPending || isFetching ? "Refreshing..." : "Refresh"}
-          </Button>
+          <div className="flex items-center gap-2">
+            <GenerateFeesModal
+              batchId={batchId}
+              batchName={batchData?.name ?? "this batch"}
+            />
+            <Button
+              variant="outline"
+              onClick={() => void refetch()}
+              disabled={isPending || isFetching}
+            >
+              {isPending || isFetching ? "Refreshing..." : "Refresh"}
+            </Button>
+          </div>
         }
       />
     </div>

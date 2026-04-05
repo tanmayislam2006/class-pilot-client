@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { useQuery } from "@tanstack/react-query";
 
 import DataTable from "@/components/modules/data-table/DataTable";
@@ -9,7 +11,11 @@ import { teacherQueryKeys, fetchTeacherBatchesQuery } from "@/queries/teacher";
 
 import { teacherBatchColumns } from "./teacher-batch-columns";
 
-export default function MyBatchesTable() {
+interface MyBatchesTableProps {
+  toolbarExtra?: React.ReactNode;
+}
+
+export default function MyBatchesTable({ toolbarExtra }: MyBatchesTableProps) {
   const { data, error, isPending, isFetching, refetch } = useQuery({
     queryKey: teacherQueryKeys.myBatches,
     queryFn: fetchTeacherBatchesQuery,
@@ -42,13 +48,16 @@ export default function MyBatchesTable() {
       }}
       emptyMessage="You have no assigned batches."
       toolbarAction={
-        <Button
-          variant="outline"
-          onClick={() => void refetch()}
-          disabled={isPending || isFetching}
-        >
-          {isPending || isFetching ? "Refreshing..." : "Refresh"}
-        </Button>
+        <div className="flex items-center gap-2">
+          {toolbarExtra}
+          <Button
+            variant="outline"
+            onClick={() => void refetch()}
+            disabled={isPending || isFetching}
+          >
+            {isPending || isFetching ? "Refreshing..." : "Refresh"}
+          </Button>
+        </div>
       }
     />
   );
