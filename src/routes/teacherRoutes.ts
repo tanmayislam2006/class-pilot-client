@@ -2,7 +2,6 @@ import {
   BookOpen,
   CalendarDays,
   ClipboardList,
-  FileText,
   LayoutDashboard,
   PenSquare,
   Users,
@@ -25,11 +24,6 @@ export const teacherRoutes: AppRoute[] = [
     title: "Create Quiz",
     href: "/teacher/dashboard/create-quiz",
     icon: PenSquare,
-  },
-  {
-    title: "Submissions",
-    href: "/teacher/dashboard/all-submission",
-    icon: FileText,
   },
   {
     title: "My Batch",

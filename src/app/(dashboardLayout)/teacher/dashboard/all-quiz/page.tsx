@@ -1,53 +1,42 @@
-import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
-import { teacherRoutes } from "@/routes";
+import Link from "next/link";
+import { BookOpen } from "lucide-react";
 
-export default function AllQuizPage() {
+import { quizService } from "@/service/quiz.service";
+import AllQuizzesTableClient from "./_components/AllQuizzesTableClient";
+
+import { Button } from "@/components/ui/button";
+
+export const metadata = {
+  title: "All Quizzes | Class Pilot",
+  description: "View all your created quizzes across all batches",
+};
+
+export default async function AllQuizzesPage() {
+  const { data: quizzes } = await quizService.getMyAllQuizzes();
+
   return (
-    <DashboardFeaturePage
-      currentHref="/teacher/dashboard/all-quiz"
-      title="Monitor every quiz you have published and scheduled."
-      eyebrow="Teacher workspace"
-      description="This page now has a production-ready structure for quiz tables, status filters, and batch-level performance snapshots."
-      routes={teacherRoutes}
-      stats={[
-        {
-          label: "Published",
-          value: "18",
-          note: "All active quizzes can live here with search and filter controls.",
-        },
-        {
-          label: "Drafts",
-          value: "04",
-          note: "Incomplete quiz builds can be surfaced before release.",
-        },
-        {
-          label: "Attempts Today",
-          value: "67",
-          note: "Recent student activity can be summarized in this workspace.",
-        },
-        {
-          label: "Avg. Score",
-          value: "74%",
-          note: "Use score trends to adjust future quiz difficulty.",
-        },
-      ]}
-      steps={[
-        {
-          title: "Review quiz status at a glance",
-          description:
-            "Published, draft, and archived quiz states can all fit into this layout without another redesign.",
-        },
-        {
-          title: "Drill into attempt performance",
-          description:
-            "Add performance charts or tables here to understand which assessments need attention.",
-        },
-        {
-          title: "Jump into creation or updates",
-          description:
-            "Move quickly between quiz management actions using the related route links on the right.",
-        },
-      ]}
-    />
+    <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Global Quiz Bank</h2>
+          <p className="text-muted-foreground">
+            Monitor and access every quiz you have created across all your batches.
+          </p>
+        </div>
+        <Link href="/teacher/dashboard/create-quiz">
+          <Button>Create New Quiz</Button>
+        </Link>
+      </div>
+
+      {!quizzes || quizzes.length === 0 ? (
+        <div className="text-center p-12 text-muted-foreground border-2 border-dashed rounded-lg bg-muted/20">
+          <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <p className="text-lg font-medium">No quizzes found.</p>
+          <p>You haven&apos;t created any quizzes yet.</p>
+        </div>
+      ) : (
+        <AllQuizzesTableClient initialData={quizzes} />
+      )}
+    </div>
   );
 }

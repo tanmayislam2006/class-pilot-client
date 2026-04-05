@@ -317,4 +317,61 @@ export interface CreateQuizPayload {
     dueDate: string;
     questions: CreateQuizQuestionPayload[];
   };
+}
+
+// ==============================
+// GLOBAL QUIZZES (API GET /quiz/my-all-quizzes)
+// ==============================
+export interface TeacherAllQuizItem {
+  id: string;
+  batchId: string;
+  title: string;
+  description: string;
+  duration: number;
+  isPublished: boolean;
+  dueDate: string;
+  createdAt: string;
+  updatedAt: string;
+  batch: {
+    id: string;
+    name: string;
+  };
+}
+
+// ==============================
+// QUIZ DETAILS (API GET /quiz/:batchId/quizzes/:quizId)
+// ==============================
+export interface TeacherQuizQuestionItem {
+  id: string;
+  order: number;
+  questionText: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctAnswer: string;
+  point: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TeacherQuizDetailsData {
+  id: string;
+  batchId: string;
+  title: string;
+  description: string;
+  duration: number;
+  isPublished: boolean;
+  dueDate: string;
+  createdAt: string;
+  updatedAt: string;
+  batch: {
+    id: string;
+    name: string;
+  };
+  questions: TeacherQuizQuestionItem[];
+  _count: {
+    questions: number;
+    submissions: number;
+  };
 }

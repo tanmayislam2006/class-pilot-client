@@ -93,6 +93,7 @@ export default function CreateQuizForm() {
       setIsSubmitting(false);
     },
     onError: (error: Error) => {
+      console.log(error);
       toast.error(error?.message || "Failed to create quiz.");
       setIsSubmitting(false);
     },
