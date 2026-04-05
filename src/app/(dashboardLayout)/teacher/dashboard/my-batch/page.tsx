@@ -1,53 +1,36 @@
-import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
-import { teacherRoutes } from "@/routes";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
-export default function MyBadgePage() {
+import DashboardResourcePage from "@/components/modules/dashboard/DashboardResourcePage";
+import { teacherQueryKeys, fetchTeacherBatchesQuery } from "@/queries/teacher";
+
+import MyBatchesTable from "./_components/MyBatchesTable";
+
+export default async function MyBatchPage() {
+  const queryClient = new QueryClient();
+
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: teacherQueryKeys.myBatches,
+      queryFn: fetchTeacherBatchesQuery,
+    });
+  } catch {
+    // Let the client query render the error state.
+  }
+
   return (
-    <DashboardFeaturePage
-      currentHref="/teacher/dashboard/my-batch"
-      title="Manage your assigned batches with a stronger operational view."
+    <DashboardResourcePage
+      title="Manage your assigned batches"
       eyebrow="Teacher workspace"
-      description="This workspace is ready for batch lists, student rosters, and quick actions across your active groups."
-      routes={teacherRoutes}
-      stats={[
-        {
-          label: "Active Batches",
-          value: "06",
-          note: "Your currently assigned groups can be displayed as interactive cards or tables.",
-        },
-        {
-          label: "Students",
-          value: "64",
-          note: "Roster summaries can live here with filters and attendance shortcuts.",
-        },
-        {
-          label: "New Joiners",
-          value: "05",
-          note: "Recent student additions are easy to surface in this layout.",
-        },
-        {
-          label: "Engagement",
-          value: "87%",
-          note: "A healthy participation rate keeps the cohort on track.",
-        },
-      ]}
-      steps={[
-        {
-          title: "Review each batch quickly",
-          description:
-            "The structure supports cards, rosters, and summary widgets for every assigned class group.",
-        },
-        {
-          title: "Move into attendance or quizzes",
-          description:
-            "Use connected routes to work across teaching tasks without losing dashboard context.",
-        },
-        {
-          title: "Track cohort health",
-          description:
-            "This page can easily host performance, attendance, and participation signals later.",
-        },
-      ]}
-    />
+      description="View your active batches, upcoming schedules, and dive into specific classes to evaluate students."
+      metrics={[]}
+    >
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <MyBatchesTable />
+      </HydrationBoundary>
+    </DashboardResourcePage>
   );
 }

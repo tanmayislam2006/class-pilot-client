@@ -144,4 +144,56 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  image?: string;
+  status?: string;
+}
+
+// ==============================
+// MY BATCHES (API 1)
+// ==============================
+export interface TeacherAssignedBatch {
+  id: string;
+  name: string;
+  description: string;
+  schedule: string;
+  startDate: string;
+  endDate: string;
+  createdAt: string;
+  updatedAt: string;
+  teacher: {
+    id: string;
+    user: User;
+  };
+  _count: {
+    students: number;
+  };
+}
+
+// ==============================
+// BATCH STUDENTS (API 2)
+// ==============================
+export interface TeacherBatchStudent {
+  id: string;
+  batchId: string;
+  phone: string;
+  enrollmentDate: string;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+}
+
+export interface TeacherBatchWithStudents {
+  id: string;
+  name: string;
+  schedule: string;
+  startDate: string;
+  endDate: string;
+  teacher: {
+    id: string;
+    user: User;
+  };
+  students: TeacherBatchStudent[];
+  _count: {
+    students: number;
+  };
 }
