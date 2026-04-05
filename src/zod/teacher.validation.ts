@@ -27,3 +27,29 @@ export const generateFeeSchema = z.object({
 });
 
 export type GenerateFeePayload = z.infer<typeof generateFeeSchema>;
+
+// ===== CREATE QUIZ =====
+export const createQuizQuestionSchema = z.object({
+  questionText: z.string().min(1, "Question text is required"),
+  optionA: z.string().min(1, "Option A is required"),
+  optionB: z.string().min(1, "Option B is required"),
+  optionC: z.string().min(1, "Option C is required"),
+  optionD: z.string().min(1, "Option D is required"),
+  correctAnswer: z.enum(["A", "B", "C", "D"], { message: "Must be A, B, C, or D" }),
+  point: z.number().min(1, "Point must be at least 1"),
+});
+
+export const createQuizSchema = z.object({
+  batchId: z.string().min(1, "Please select a batch"),
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  description: z.string().min(5, "Description must be at least 5 characters"),
+  duration: z.number({ 
+    message: "Duration is required"
+  }).min(1, "Duration (minutes) must be at least 1"),
+  dueDate: z.date({ 
+    message: "Due date is required"
+  }),
+  questions: z.array(createQuizQuestionSchema).min(1, "At least one question is required"),
+});
+
+export type CreateQuizFormData = z.infer<typeof createQuizSchema>;

@@ -295,3 +295,26 @@ export interface AttendanceSession {
   batchId: string;
   records: FetchedAttendanceRecord[];
 }
+
+// ==============================
+// CREATE QUIZ
+// ==============================
+export interface CreateQuizQuestionPayload {
+  questionText: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctAnswer: "A" | "B" | "C" | "D" | string;
+  point: number;
+}
+
+export interface CreateQuizPayload {
+  quiz: {
+    title: string;
+    description: string;
+    duration: number;
+    dueDate: string;
+    questions: CreateQuizQuestionPayload[];
+  };
+}
