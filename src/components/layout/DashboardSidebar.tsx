@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { AppRoute } from "@/routes";
+import Image from "next/image";
 
 type DashboardSidebarProps = {
   activeHref: string | null;
@@ -57,7 +58,7 @@ export default function DashboardSidebar({
           >
             <div className="flex items-center gap-3">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <Sparkles className="size-5" />
+                {/* <Image src="/class-pilot-logo.png" alt="Logo" width={50} height={50} className="object-cover" /> */}
               </div>
               {!collapsed && (
                 <div className="min-w-0">
