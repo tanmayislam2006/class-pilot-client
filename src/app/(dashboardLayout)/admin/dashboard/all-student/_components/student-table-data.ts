@@ -5,6 +5,7 @@ export type AdminStudentRow = {
   email: string;
   feeStatus: string;
   id: string;
+  userId: string;
   name: string;
   performance: string;
   status: string;
@@ -23,6 +24,7 @@ function deriveFeeStatus(feeCount?: number) {
 export function mapStudentToRow(student: Student): AdminStudentRow {
   return {
     id: student.id,
+    userId: student.user.id,
     name: student.user.name,
     email: student.user.email,
     batch: student.batch?.name ?? "No batch",

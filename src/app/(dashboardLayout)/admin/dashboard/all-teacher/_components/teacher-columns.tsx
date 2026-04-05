@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { DataTableColumn } from "@/components/modules/data-table/DataTable";
+import UpdateUserStatusAction from "@/components/modules/dashboard/UpdateUserStatusAction";
 
 import type { AdminTeacherRow } from "./teacher-table-data";
 
@@ -59,5 +60,12 @@ export const teacherColumns: DataTableColumn<AdminTeacherRow>[] = [
     id: "createdAt",
     header: "Joined",
     cell: (row) => <span className="text-muted-foreground">{row.createdAt}</span>,
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: (row) => (
+      <UpdateUserStatusAction userId={row.userId} currentStatus={row.status} />
+    ),
   },
 ];

@@ -2,6 +2,7 @@ import type { Teacher } from "@/types/admin.types";
 
 export type AdminTeacherRow = {
   id: string;
+  userId: string;
   batches: number;
   email: string;
   createdAt: string;
@@ -29,6 +30,7 @@ function formatStatus(status?: string) {
 export function mapTeacherToRow(teacher: Teacher): AdminTeacherRow {
   return {
     id: teacher.id,
+    userId: teacher.user.id,
     name: teacher.user.name,
     email: teacher.user.email,
     specialty: teacher.subject ?? teacher.subjects ?? teacher.bio ?? "General",

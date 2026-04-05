@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { DataTableColumn } from "@/components/modules/data-table/DataTable";
+import UpdateUserStatusAction from "@/components/modules/dashboard/UpdateUserStatusAction";
 
 import type { AdminStudentRow } from "./student-table-data";
 
@@ -61,6 +62,13 @@ export const studentColumns: DataTableColumn<AdminStudentRow>[] = [
       >
         {row.status}
       </Badge>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: (row) => (
+      <UpdateUserStatusAction userId={row.userId} currentStatus={row.status} />
     ),
   },
 ];
