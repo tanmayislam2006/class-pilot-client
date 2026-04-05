@@ -84,7 +84,7 @@ export default function RoleDashboardHome({
         })}
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+      {/* <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <Card className="border-border/70 bg-card/95 shadow-sm">
           <CardHeader>
             <CardTitle className="text-xl font-semibold">Quick Access</CardTitle>
@@ -151,7 +151,8 @@ export default function RoleDashboardHome({
             })}
           </CardContent>
         </Card>
-      </section>
+      </section> */}
+     
     </div>
   );
 }
