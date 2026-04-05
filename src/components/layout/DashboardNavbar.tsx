@@ -75,12 +75,12 @@ export default function DashboardNavbar({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Badge className="hidden rounded-full px-3 py-1 sm:inline-flex">
             {roleLabel}
           </Badge>
 
-          <div className="hidden rounded-full border border-border/70 bg-card/80 px-4 py-2 text-right shadow-sm sm:block">
+          <div className="hidden text-right sm:block">
             <p className="text-sm font-medium leading-none">{userName}</p>
             <p className="mt-1 text-xs text-muted-foreground">
               Signed in
