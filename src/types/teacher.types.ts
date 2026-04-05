@@ -197,3 +197,51 @@ export interface TeacherBatchWithStudents {
     students: number;
   };
 }
+
+// ==============================
+// ATTENDANCE
+// ==============================
+export type AttendanceStatus = "PRESENT" | "ABSENT" | "LATE";
+
+export interface AttendanceRecord {
+  studentId: string;
+  status: AttendanceStatus;
+  remarks?: string;
+}
+
+export interface SubmitAttendancePayload {
+  attendance: {
+    date: string; // ISO Date
+    records: AttendanceRecord[];
+  };
+}
+
+// GET attendance response — flat records array from backend
+export interface FetchedAttendanceRecord {
+  id: string;
+  studentId: string;
+  date: string;
+  status: AttendanceStatus;
+  remarks?: string;
+  createdAt: string;
+  updatedAt: string;
+  student: {
+    id: string;
+    batchId: string;
+    user: User;
+  };
+}
+
+export interface BatchAttendanceResponse {
+  batchId: string;
+  batchName: string;
+  attendance: FetchedAttendanceRecord[];
+}
+
+// We will derive this on the client
+export interface AttendanceSession {
+  id: string; // date string
+  date: string;
+  batchId: string;
+  records: FetchedAttendanceRecord[];
+}
