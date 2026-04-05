@@ -1,11 +1,13 @@
 import type { ApiResponse } from "@/types/api";
-import type { TeacherAssignedBatch, TeacherBatchWithStudents, BatchAttendanceResponse } from "@/types/teacher.types";
+import type { TeacherAssignedBatch, TeacherBatchWithStudents, BatchAttendanceResponse, TeacherBatchQuizzesResponse, QuizSubmissionsResponseData } from "@/types/teacher.types";
 
 export const teacherQueryKeys = {
   dashboard: ["teacher", "dashboard"] as const,
   myBatches: ["teacher", "my-batches"] as const,
   batchStudents: (batchId: string) => ["teacher", "batch-students", batchId] as const,
   batchAttendance: (batchId: string) => ["teacher", "batch-attendance", batchId] as const,
+  batchQuizzes: (batchId: string) => ["teacher", "batch-quizzes", batchId] as const,
+  quizSubmissions: (batchId: string, quizId: string) => ["teacher", "quiz-submissions", batchId, quizId] as const,
 };
 
 async function getApiData<T>(input: string): Promise<ApiResponse<T>> {
@@ -33,4 +35,12 @@ export function fetchBatchStudentsQuery(batchId: string) {
 
 export function fetchBatchAttendanceQuery(batchId: string) {
   return getApiData<BatchAttendanceResponse>(`/api/teacher/batches/${batchId}/attendance`);
+}
+
+export function fetchBatchQuizzesQuery(batchId: string) {
+  return getApiData<TeacherBatchQuizzesResponse>(`/api/teacher/batches/${batchId}/quizzes`);
+}
+
+export function fetchQuizSubmissionsQuery(batchId: string, quizId: string) {
+  return getApiData<QuizSubmissionsResponseData>(`/api/teacher/batches/${batchId}/quiz/${quizId}/submissions`);
 }

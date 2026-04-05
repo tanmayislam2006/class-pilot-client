@@ -30,6 +30,15 @@ export const teacherBatchColumns: DataTableColumn<TeacherAssignedBatch>[] = [
     ),
   },
   {
+    id: "quizzes",
+    header: "Quizzes",
+    cell: (row) => (
+      <Badge variant="secondary" className="px-2">
+        {row._count.quizzes} Quizzes
+      </Badge>
+    ),
+  },
+  {
     id: "actions",
     header: "",
     cell: (row) => (

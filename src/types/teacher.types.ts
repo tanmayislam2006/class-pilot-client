@@ -166,6 +166,7 @@ export interface TeacherAssignedBatch {
   };
   _count: {
     students: number;
+    quizzes: number;
   };
 }
 
@@ -196,6 +197,55 @@ export interface TeacherBatchWithStudents {
   _count: {
     students: number;
   };
+}
+
+// ==============================
+// BATCH QUIZZES (API 3)
+// ==============================
+export interface TeacherBatchQuiz {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string; // ISO Date
+  updatedAt: string; // ISO Date
+  _count: {
+    questions: number;
+    submissions: number;
+  };
+}
+
+export interface TeacherBatchQuizzesResponse {
+  batchId: string;
+  batchName: string;
+  quizzes: TeacherBatchQuiz[];
+}
+
+export interface QuizSubmissionData {
+  id: string;
+  score: number;
+  totalPoints: number;
+  submittedAt: string;
+  _count: {
+    answers: number;
+  };
+  student: {
+    id: string;
+    phone: string;
+    user: User;
+  };
+}
+
+export interface QuizSubmissionsResponseData {
+  batch: {
+    id: string;
+    name: string;
+  };
+  quiz: {
+    id: string;
+    title: string;
+    dueDate: string;
+  };
+  submissions: QuizSubmissionData[];
 }
 
 // ==============================
