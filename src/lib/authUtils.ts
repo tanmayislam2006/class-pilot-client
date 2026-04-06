@@ -39,7 +39,7 @@ export const adminProtectedRoutes: RouteConfig = {
 };
 export const studentProtectedRoutes: RouteConfig = {
   pattern: [/^\/dashboard/], // Matches any path that starts with /dashboard
-  exact: ["/payment/success"],
+  exact: ["/payment-success", "/payment-cancel"],
 };
 
 export const isRouteMatches = (pathname: string, routes: RouteConfig) => {
