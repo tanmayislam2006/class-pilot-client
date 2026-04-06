@@ -306,4 +306,10 @@ export interface QuizSubmissionPayload {
   };
 }
 
+export interface PaymentSessionData {
+  paymentUrl: string;
+}
+
+export type PaymentSessionResponse = ApiResponse<PaymentSessionData>;
+
 export type { ApiResponse };

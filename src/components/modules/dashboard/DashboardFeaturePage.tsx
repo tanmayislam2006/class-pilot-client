@@ -31,6 +31,12 @@ type DashboardFeaturePageProps = {
   routes: AppRoute[];
   stats: FeatureStat[];
   title: string;
+  steps?: FeatureStep[];
+};
+
+type FeatureStep = {
+  title: string;
+  description: string;
 };
 
 export default function DashboardFeaturePage({
@@ -40,6 +46,7 @@ export default function DashboardFeaturePage({
   routes,
   stats,
   title,
+  steps = [],
 }: DashboardFeaturePageProps) {
   const currentRoute = routes.find((route) => route.href === currentHref);
   const CurrentIcon: LucideIcon = currentRoute?.icon ?? Sparkles;
@@ -102,6 +109,38 @@ export default function DashboardFeaturePage({
           </Card>
         ))}
       </section>
+
+      {steps.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center gap-2 px-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+            <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              Feature Workflow
+            </h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {steps.map((step, index) => (
+              <Card key={step.title} className="relative border-border/60 bg-background/50 shadow-none hover:bg-background/80 transition-colors">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary ring-1 ring-primary/20">
+                      {(index + 1).toString().padStart(2, "0")}
+                    </span>
+                    <CardTitle className="text-base font-medium">
+                      {step.title}
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    {step.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
 
     </div>
   );

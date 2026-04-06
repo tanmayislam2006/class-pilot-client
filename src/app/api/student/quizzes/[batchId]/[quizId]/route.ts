@@ -4,7 +4,7 @@ import { studentService } from "@/service/student.service";
 
 export async function GET(
   request: Request,
-  { params }: { params: { batchId: string; quizId: string } }
+  { params }: { params: Promise<{ batchId: string; quizId: string }> }
 ) {
   try {
     const { batchId, quizId } = await params;
@@ -35,7 +35,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { batchId: string; quizId: string } }
+  { params }: { params: Promise<{ batchId: string; quizId: string }> }
 ) {
   try {
     const { batchId, quizId } = await params;

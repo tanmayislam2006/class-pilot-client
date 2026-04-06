@@ -2,16 +2,13 @@ import Link from "next/link";
 import { XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/currentUser";
-import { redirect } from "next/navigation";
+import { getDefaultDashboardRoute, UserRole } from "@/lib/authUtils";
 
 export const dynamic = "force-dynamic";
 
 export default async function PaymentCancelPage() {
   const user = await getCurrentUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+  const dashboardRoute = user ? getDefaultDashboardRoute(user.role as UserRole) : "/login";
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
@@ -47,9 +44,9 @@ export default async function PaymentCancelPage() {
               Go to Home Page
             </Button>
           </Link>
-          <Link href="/dashboard" className="w-full">
+          <Link href={dashboardRoute} className="w-full">
             <Button variant="ghost" className="cursor-pointer w-full h-12 text-lg font-semibold rounded-xl hover:bg-slate-50 transition-all text-slate-500 underline underline-offset-4">
-              Return to Dashboard
+              {user ? "Return to Dashboard" : "Log In to Dashboard"}
             </Button>
           </Link>
         </div>

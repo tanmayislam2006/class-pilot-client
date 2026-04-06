@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import type { DataTableColumn } from "@/components/modules/data-table/DataTable";
 import type { StudentFee } from "@/types/student.types";
 import { format } from "date-fns";
-import { CreditCard, Download, ExternalLink } from "lucide-react";
+import { Download } from "lucide-react";
+import PayFeeButton from "./PayFeeButton";
 
 export const feeColumns: DataTableColumn<StudentFee>[] = [
   {
@@ -66,12 +67,7 @@ export const feeColumns: DataTableColumn<StudentFee>[] = [
         );
       }
 
-      return (
-        <Button size="sm" className="gap-2 bg-primary/95 hover:bg-primary">
-          <CreditCard className="h-4 w-4" />
-          Pay Now
-        </Button>
-      );
+      return <PayFeeButton feeId={row.id} />;
     },
   },
 ];

@@ -2,19 +2,13 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/currentUser";
-import { redirect } from "next/navigation";
 import { getDefaultDashboardRoute, UserRole } from "@/lib/authUtils";
 
 export const dynamic = "force-dynamic";
 
 export default async function PaymentSuccessPage() {
   const user = await getCurrentUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const dashboardRoute = getDefaultDashboardRoute(user.role as UserRole);
+  const dashboardRoute = user ? getDefaultDashboardRoute(user.role as UserRole) : "/login";
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
@@ -47,7 +41,7 @@ export default async function PaymentSuccessPage() {
         <div className="flex flex-col gap-4 animate-slide-up delay-300">
           <Link href={dashboardRoute} className="w-full">
             <Button className="cursor-pointer w-full h-12 text-lg font-semibold rounded-xl bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20">
-              Go to Dashboard
+              {user ? "Go to Dashboard" : "Log In to Dashboard"}
             </Button>
           </Link>
           <Link href="/" className="w-full">

@@ -11,6 +11,7 @@ import {
   ApiResponse,
   QuizDetailsResponse,
   QuizSubmissionResponse,
+  PaymentSessionResponse,
 } from "@/types/student.types";
 
 export const studentService = {
@@ -43,7 +44,7 @@ export const studentService = {
   },
 
   payFee: async (feeId: string) => {
-    return await httpClient.post<ApiResponse<unknown>, Record<string, never>>(`/student/fees/${feeId}/pay`, {});
+    return await httpClient.post<PaymentSessionResponse, Record<string, never>>(`/student/fees/${feeId}/pay`, {});
   },
 
   submitQuiz: async (batchId: string, quizId: string, payload: QuizSubmissionPayload) => {
