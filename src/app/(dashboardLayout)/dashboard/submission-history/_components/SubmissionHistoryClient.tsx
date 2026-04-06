@@ -48,20 +48,7 @@ export default function SubmissionHistoryClient() {
     },
   ];
 
-  const steps = [
-    {
-      title: "Scan completed work",
-      description: "Review all evaluated attempts and identify your strong and weak areas.",
-    },
-    {
-      title: "Compare outcomes",
-      description: "Use the detailed score breakdowns to track your improvement journey.",
-    },
-    {
-      title: "Review mistakes",
-      description: "Click 'Details' to see question-level feedback (if available).",
-    },
-  ];
+
 
   return (
     <div className="space-y-10">
@@ -72,7 +59,6 @@ export default function SubmissionHistoryClient() {
         description="Inspect previous attempts, monitor marks, and see where your quiz activity is improving."
         routes={studentRoutes}
         stats={stats}
-        steps={steps}
       />
 
       <section className="px-1 pb-10">

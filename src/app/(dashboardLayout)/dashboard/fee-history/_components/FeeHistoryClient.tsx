@@ -56,20 +56,7 @@ export default function FeeHistoryClient() {
     },
   ];
 
-  const steps = [
-    {
-      title: "Review payment history",
-      description: "Scan your chronological list of invoices and settled monthly dues.",
-    },
-    {
-      title: "Spot pending fees",
-      description: "Use the 'Unpaid' or 'Overdue' filters to find items needing attention.",
-    },
-    {
-      title: "Keep proving marks",
-      description: "Download receipts for your records whenever a payment is confirmed.",
-    },
-  ];
+
 
   return (
     <div className="space-y-10">
@@ -80,7 +67,6 @@ export default function FeeHistoryClient() {
         description="Your finance area provides a clear view of your billing state, reminders, and transaction receipts."
         routes={studentRoutes}
         stats={stats}
-        steps={steps}
       />
 
       <section className="px-1 pb-10">
