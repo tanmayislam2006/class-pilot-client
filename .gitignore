@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# docs
+STUDENT_ROADMAP.md
+TEACHER_ROADMAP.md
