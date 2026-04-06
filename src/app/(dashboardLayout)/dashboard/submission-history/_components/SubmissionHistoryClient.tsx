@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, TrendingUp, TrendingDown } from "lucide-react";
 
-import DataTable from "@/components/modules/data-table/DataTable";
+import DataTable, { DataTableColumn } from "@/components/modules/data-table/DataTable";
 import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
 import { studentRoutes } from "@/routes";
 import { studentQueryKeys, fetchSubmissionHistoryQuery } from "@/queries/student";
@@ -77,11 +77,14 @@ export default function SubmissionHistoryClient() {
 
       <section className="px-1 pb-10">
         <div className="rounded-[24px] border border-border/60 bg-card/40 p-1 shadow-sm transition-all hover:border-border/80 hover:bg-card/60">
-          <DataTable
+          <DataTable<{ id: string; quiz: { title: string } }>
             data={history}
-            columns={submissionColumns}
-            searchKey="quiz.title"
-            searchPlaceholder="Search by quiz title..."
+            columns={submissionColumns as unknown as DataTableColumn<{ id: string; quiz: { title: string } }>[]}
+            getRowId={(row) => row.id}
+            search={{
+              getText: (row) => row.quiz.title,
+              placeholder: "Search by quiz title...",
+            }}
           />
         </div>
       </section>

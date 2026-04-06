@@ -29,7 +29,7 @@ export default function AssignedQuizzesClient() {
   }
 
   const { counts, quizzes } = data?.data || { counts: { totalAssigned: 0, submitted: 0, pending: 0, overdue: 0 }, quizzes: [] };
-  const avgScore = dashboardData?.data.summary.averageScorePercentage || 0;
+  const avgScore = dashboardData?.data?.summary?.averageScorePercentage || 0;
 
   const stats = [
     {
@@ -54,21 +54,6 @@ export default function AssignedQuizzesClient() {
     },
   ];
 
-  const steps = [
-    {
-      title: "Review the latest quiz list",
-      description: "Scan assigned assessments and prioritize the ones closing first.",
-    },
-    {
-      title: "Prepare and START",
-      description: "Ensure you have a stable connection before hitting 'Start Quiz'.",
-    },
-    {
-      title: "Track your outcomes",
-      description: "Review scores and correct answers after each submission to improve.",
-    },
-  ];
-
   return (
     <div className="space-y-10">
       <DashboardFeaturePage
@@ -78,7 +63,6 @@ export default function AssignedQuizzesClient() {
         description="Review available quizzes, see what is pending, and jump into submissions from one organized page."
         routes={studentRoutes}
         stats={stats}
-        steps={steps}
       />
 
       <section className="px-1 pb-10">
@@ -86,8 +70,11 @@ export default function AssignedQuizzesClient() {
           <DataTable
             data={quizzes}
             columns={quizColumns}
-            searchKey="title"
-            searchPlaceholder="Search quizzes by title..."
+            getRowId={(row) => row.id}
+            search={{
+              getText: (row) => row.title,
+              placeholder: "Search quizzes by title...",
+            }}
           />
         </div>
       </section>

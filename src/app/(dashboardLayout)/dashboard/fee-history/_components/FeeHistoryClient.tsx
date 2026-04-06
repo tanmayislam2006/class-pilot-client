@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-import DataTable from "@/components/modules/data-table/DataTable";
+import DataTable, { DataTableColumn } from "@/components/modules/data-table/DataTable";
 import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
 import { studentRoutes } from "@/routes";
 import { studentQueryKeys, fetchFeeHistoryQuery, fetchFeeSummaryQuery } from "@/queries/student";
@@ -31,7 +31,7 @@ export default function FeeHistoryClient() {
   const { summary, history } = data?.data || { summary: { totalRecords: 0, totalAmount: 0, paidCount: 0, unpaidCount: 0, overdueCount: 0 }, history: [] };
   
   // Use either history summary or summary route data
-  const totalDues = summaryData?.data.summary.totalUnpaidAmount ?? (summary.totalAmount - (summary.paidCount * 1000)); // rough estimate if summary missing
+  const totalDues = summaryData?.data?.summary?.totalUnpaidAmount ?? (summary.totalAmount - (summary.paidCount * 1000)); // rough estimate if summary missing
 
   const stats = [
     {
@@ -85,11 +85,14 @@ export default function FeeHistoryClient() {
 
       <section className="px-1 pb-10">
         <div className="rounded-[24px] border border-border/60 bg-card/40 p-1 shadow-sm transition-all hover:border-border/80 hover:bg-card/60">
-          <DataTable
+          <DataTable<{ id: string; month: string }>
             data={history}
-            columns={feeColumns}
-            searchKey="month"
-            searchPlaceholder="Search by month (e.g. April)..."
+            columns={feeColumns as unknown as DataTableColumn<{ id: string; month: string }>[]}
+            getRowId={(row) => row.id}
+            search={{
+              getText: (row) => row.month,
+              placeholder: "Search by month (e.g. April)...",
+            }}
           />
         </div>
       </section>

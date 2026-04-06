@@ -2,8 +2,6 @@ import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
-  CheckCircle2,
-  ChevronRight,
   Sparkles,
 } from "lucide-react";
 
@@ -24,10 +22,7 @@ type FeatureStat = {
   note: string;
 };
 
-type FeatureStep = {
-  title: string;
-  description: string;
-};
+
 
 type DashboardFeaturePageProps = {
   currentHref: string;
@@ -35,7 +30,6 @@ type DashboardFeaturePageProps = {
   eyebrow: string;
   routes: AppRoute[];
   stats: FeatureStat[];
-  steps: FeatureStep[];
   title: string;
 };
 
@@ -45,7 +39,6 @@ export default function DashboardFeaturePage({
   eyebrow,
   routes,
   stats,
-  steps,
   title,
 }: DashboardFeaturePageProps) {
   const currentRoute = routes.find((route) => route.href === currentHref);
@@ -110,82 +103,6 @@ export default function DashboardFeaturePage({
         ))}
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border border-border/70 bg-card/95 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.28)]">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">Workflow Focus</CardTitle>
-            <CardDescription>
-              Use this page as the working surface for your next actions in this module.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {steps.map((step, index) => (
-              <div
-                key={step.title}
-                className="flex gap-3 rounded-2xl border border-border/70 bg-background/80 p-4"
-              >
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                  {index + 1}
-                </div>
-                <div className="space-y-1">
-                  <p className="font-medium">{step.title}</p>
-                  <p className="text-sm leading-6 text-muted-foreground">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border border-border/70 bg-card/95 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.28)]">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">Related Pages</CardTitle>
-            <CardDescription>
-              Navigate to connected tools without going back to the main dashboard.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {relatedRoutes.map((route) => {
-              const Icon = route.icon;
-
-              return (
-                <Link
-                  key={route.href}
-                  href={route.href}
-                  className="group flex items-center gap-3 rounded-2xl border border-border/70 bg-background/80 px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/5"
-                >
-                  <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                    <Icon className="size-5" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium">{route.title}</p>
-                    <p className="truncate text-sm text-muted-foreground">
-                      {route.href}
-                    </p>
-                  </div>
-                  <ChevronRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-primary" />
-                </Link>
-              );
-            })}
-
-            <div className="rounded-2xl border border-dashed border-primary/25 bg-primary/5 p-4">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 text-primary">
-                  <CheckCircle2 className="size-5" />
-                </div>
-                <div className="space-y-1">
-                  <p className="font-medium text-foreground">Ready for real data</p>
-                  <p className="text-sm leading-6 text-muted-foreground">
-                    This layout is now production-shaped, so you can wire actual API data
-                    into cards, tables, and forms without redesigning the page again.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
     </div>
   );
 }
