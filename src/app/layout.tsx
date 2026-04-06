@@ -3,6 +3,7 @@ import { Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import AppProviders from "@/providers/AppProviders";
+import { getCurrentUser } from "@/lib/currentUser";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -21,18 +22,20 @@ export const metadata: Metadata = {
   description: "CRM for your classes",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
+
   return (
     <html
       lang="en"
       className={`${poppins.variable} ${geistMono.variable}`}
     >
       <body className="antialiased">
-        <AppProviders>{children}</AppProviders>
+        <AppProviders initialUser={user}>{children}</AppProviders>
         <Toaster position="top-center" richColors />
       </body>
     </html>

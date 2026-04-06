@@ -27,6 +27,14 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       return null;
     }
 
+    if (
+      error instanceof Error &&
+      (error.message.includes("DYNAMIC_SERVER_USAGE") ||
+        error.message.includes("Dynamic server usage"))
+    ) {
+      return null;
+    }
+
     console.error("Error fetching current user:", error);
     return null;
   }
