@@ -1,6 +1,6 @@
 import { httpClient } from "@/lib/httpClient";
 import { ApiResponse } from "@/types/api";
-import { TeacherDashboardData, TeacherAssignedBatch, TeacherBatchWithStudents, TeacherBatchQuizzesResponse, QuizSubmissionsResponseData } from "@/types/teacher.types";
+import { TeacherDashboardData, TeacherAssignedBatch, TeacherBatchWithStudents, TeacherBatchQuizzesResponse, QuizSubmissionsResponseData, CreateStudentPayload, CreateStudentResponse } from "@/types/teacher.types";
 
 export const teacherService = {
     getDashboardData: async (): Promise<ApiResponse<TeacherDashboardData>> => {
@@ -26,6 +26,12 @@ export const teacherService = {
     getQuizSubmissions: async (batchId: string, quizId: string): Promise<ApiResponse<QuizSubmissionsResponseData>> => {
         return await httpClient.get<ApiResponse<QuizSubmissionsResponseData>>(
             `/quiz/${batchId}/quizzes/${quizId}/submissions`
+        );
+    },
+    createStudent: async (payload: CreateStudentPayload): Promise<ApiResponse<CreateStudentResponse>> => {
+        return await httpClient.post<ApiResponse<CreateStudentResponse>>(
+            "/user/create-student",
+            payload
         );
     }
 }

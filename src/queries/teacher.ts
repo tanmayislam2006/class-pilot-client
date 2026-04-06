@@ -1,5 +1,5 @@
 import type { ApiResponse } from "@/types/api";
-import type { TeacherAssignedBatch, TeacherBatchWithStudents, BatchAttendanceResponse, TeacherBatchQuizzesResponse, QuizSubmissionsResponseData } from "@/types/teacher.types";
+import type { TeacherAssignedBatch, TeacherBatchWithStudents, BatchAttendanceResponse, TeacherBatchQuizzesResponse, QuizSubmissionsResponseData, CreateStudentPayload, CreateStudentResponse } from "@/types/teacher.types";
 
 export const teacherQueryKeys = {
   dashboard: ["teacher", "dashboard"] as const,
@@ -14,6 +14,26 @@ async function getApiData<T>(input: string): Promise<ApiResponse<T>> {
   const response = await fetch(input, {
     cache: "no-store",
     credentials: "include", // Essential for forwarding the cookies
+  });
+
+  const payload = (await response.json()) as ApiResponse<T>;
+
+  if (!response.ok || !payload.success) {
+    throw new Error(payload.message || "Request failed");
+  }
+
+  return payload;
+}
+
+async function postApiData<T>(input: string, body: unknown): Promise<ApiResponse<T>> {
+  const response = await fetch(input, {
+    method: "POST",
+    cache: "no-store",
+    credentials: "include", // Essential for forwarding the cookies
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
   });
 
   const payload = (await response.json()) as ApiResponse<T>;
@@ -43,4 +63,8 @@ export function fetchBatchQuizzesQuery(batchId: string) {
 
 export function fetchQuizSubmissionsQuery(batchId: string, quizId: string) {
   return getApiData<QuizSubmissionsResponseData>(`/api/teacher/batches/${batchId}/quiz/${quizId}/submissions`);
+}
+
+export function createStudentMutation(payload: CreateStudentPayload) {
+  return postApiData<CreateStudentResponse>("/api/teacher/create-student", payload);
 }

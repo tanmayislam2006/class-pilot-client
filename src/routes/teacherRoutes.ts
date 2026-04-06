@@ -1,5 +1,4 @@
 import {
-  BookOpen,
   CalendarDays,
   ClipboardList,
   LayoutDashboard,
@@ -34,10 +33,5 @@ export const teacherRoutes: AppRoute[] = [
     title: "Attendance",
     href: "/teacher/dashboard/attendecne",
     icon: CalendarDays,
-  },
-  {
-    title: "Update Quiz",
-    href: "/teacher/dashboard/update-quiz",
-    icon: BookOpen,
   },
 ];

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { teacherQueryKeys, fetchBatchStudentsQuery } from "@/queries/teacher";
 import { batchStudentColumns } from "./batch-student-columns";
 import GenerateFeesModal from "./GenerateFeesModal";
+import CreateStudentModal from "./CreateStudentModal";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -69,6 +70,10 @@ export default function BatchStudentsTable({ batchId }: BatchStudentsTableProps)
         emptyMessage="No students are enrolled in this batch yet."
         toolbarAction={
           <div className="flex items-center gap-2">
+            <CreateStudentModal
+              batchId={batchId}
+              batchName={batchData?.name ?? "this batch"}
+            />
             <GenerateFeesModal
               batchId={batchId}
               batchName={batchData?.name ?? "this batch"}

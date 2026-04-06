@@ -408,4 +408,39 @@ export interface TeacherQuizDetailsData {
     questions: number;
     submissions: number;
   };
+}
+
+// ==============================
+// CREATE STUDENT
+// ==============================
+export interface CreateStudentPayload {
+  password: string;
+  student: {
+    name: string;
+    email: string;
+    batchId: string;
+    phone: string;
+    enrollmentDate: string;
+    image?: string;
+  };
+}
+
+export interface CreateStudentResponse {
+  user: User & {
+    role: string;
+    emailVerified: boolean;
+    needPasswordChange: boolean;
+  };
+  student: {
+    id: string;
+    batchId: string;
+    phone: string;
+    enrollmentDate: string;
+    createdAt: string;
+    batch: {
+      id: string;
+      name: string;
+      teacherId: string;
+    };
+  };
 }
