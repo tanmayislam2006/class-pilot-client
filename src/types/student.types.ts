@@ -237,6 +237,66 @@ export interface FeeHistoryData {
 
 export type FeeHistoryResponse = ApiResponse<FeeHistoryData>;
 
+export interface QuizDetailsQuestion {
+  id: string;
+  order: number;
+  questionText: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  point: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuizDetailsData {
+  id: string;
+  batchId: string;
+  title: string;
+  description: string;
+  duration: number;
+  isPublished: boolean;
+  dueDate: string;
+  createdAt: string;
+  updatedAt: string;
+  batch: {
+    id: string;
+    name: string;
+  };
+  questions: QuizDetailsQuestion[];
+  _count: {
+    questions: number;
+    submissions: number;
+  };
+}
+
+export type QuizDetailsResponse = ApiResponse<QuizDetailsData>;
+
+export interface QuizSubmissionResponseData {
+  id: string;
+  quizId: string;
+  studentId: string;
+  score: number;
+  totalPoints: number;
+  submittedAt: string;
+  createdAt: string;
+  quiz: {
+    id: string;
+    batchId: string;
+    title: string;
+  };
+  answers: {
+    id: string;
+    questionId: string;
+    selectedAnswer: string;
+    isCorrect: boolean;
+    createdAt: string;
+  }[];
+}
+
+export type QuizSubmissionResponse = ApiResponse<QuizSubmissionResponseData>;
+
 export interface QuizSubmissionPayload {
   submission: {
     answers: {

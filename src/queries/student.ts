@@ -7,6 +7,9 @@ import {
   AttendanceSummaryData,
   FeeSummaryData,
   FeeHistoryData,
+  QuizDetailsData,
+  QuizSubmissionPayload,
+  QuizSubmissionResponseData,
 } from "@/types/student.types";
 
 export const studentQueryKeys = {
@@ -17,6 +20,7 @@ export const studentQueryKeys = {
   attendanceSummary: ["student", "attendance-summary"] as const,
   feeSummary: ["student", "fee-summary"] as const,
   feeHistory: ["student", "fee-history"] as const,
+  quizDetails: (batchId: string, quizId: string) => ["student", "quiz-details", batchId, quizId] as const,
 };
 
 async function getApiData<T>(input: string): Promise<ApiResponse<T>> {
@@ -60,4 +64,26 @@ export function fetchFeeSummaryQuery() {
 
 export function fetchFeeHistoryQuery() {
   return getApiData<FeeHistoryData>("/api/student/fees/history");
+}
+
+export function fetchQuizDetailsQuery(batchId: string, quizId: string) {
+  return getApiData<QuizDetailsData>(`/api/student/quizzes/${batchId}/${quizId}`);
+}
+
+export async function submitQuizMutation(batchId: string, quizId: string, payload: QuizSubmissionPayload) {
+  const response = await fetch(`/api/student/quizzes/${batchId}/${quizId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json() as ApiResponse<QuizSubmissionResponseData>;
+
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || "Failed to submit quiz");
+  }
+
+  return data;
 }

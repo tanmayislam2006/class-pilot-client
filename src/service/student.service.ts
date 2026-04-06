@@ -9,6 +9,8 @@ import {
   FeeHistoryResponse,
   QuizSubmissionPayload,
   ApiResponse,
+  QuizDetailsResponse,
+  QuizSubmissionResponse,
 } from "@/types/student.types";
 
 export const studentService = {
@@ -41,13 +43,17 @@ export const studentService = {
   },
 
   payFee: async (feeId: string) => {
-    return await httpClient.post<ApiResponse<any>, any>(`/student/fees/${feeId}/pay`, {});
+    return await httpClient.post<ApiResponse<unknown>, Record<string, never>>(`/student/fees/${feeId}/pay`, {});
   },
 
   submitQuiz: async (batchId: string, quizId: string, payload: QuizSubmissionPayload) => {
-    return await httpClient.post<ApiResponse<any>, QuizSubmissionPayload>(
+    return await httpClient.post<QuizSubmissionResponse, QuizSubmissionPayload>(
       `/quiz/${batchId}/quizzes/${quizId}/submit`,
       payload
     );
+  },
+
+  getQuizDetails: async (batchId: string, quizId: string) => {
+    return await httpClient.get<QuizDetailsResponse>(`/quiz/${batchId}/quizzes/${quizId}`);
   },
 };

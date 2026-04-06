@@ -90,7 +90,7 @@ export const quizColumns: DataTableColumn<StudentQuiz>[] = [
 
       return (
         <Button size="sm" className="gap-2" asChild>
-          <Link href={`/dashboard/submit-quiz/${row.id}`}>
+          <Link href={`/dashboard/submit-quiz/${row.batchId}/${row.id}`}>
             <PlayCircle className="h-4 w-4" />
             Start Quiz
           </Link>
