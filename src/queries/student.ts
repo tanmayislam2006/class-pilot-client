@@ -3,6 +3,7 @@ import {
   StudentDashboardData,
   AssignedQuizzesData,
   SubmissionHistoryData,
+  SubmissionDetailsData,
   AttendanceSummaryData,
   FeeSummaryData,
   FeeHistoryData,
@@ -12,6 +13,7 @@ export const studentQueryKeys = {
   dashboard: ["student", "dashboard"] as const,
   assignedQuizzes: ["student", "assigned-quizzes"] as const,
   submissionHistory: ["student", "submission-history"] as const,
+  submissionDetails: (id: string) => ["student", "submission-details", id] as const,
   attendanceSummary: ["student", "attendance-summary"] as const,
   feeSummary: ["student", "fee-summary"] as const,
   feeHistory: ["student", "fee-history"] as const,
@@ -42,6 +44,10 @@ export function fetchAssignedQuizzesQuery() {
 
 export function fetchSubmissionHistoryQuery() {
   return getApiData<SubmissionHistoryData>("/api/student/quizzes/submissions");
+}
+
+export function fetchSubmissionDetailsQuery(submissionId: string) {
+  return getApiData<SubmissionDetailsData>(`/api/student/quizzes/submissions/${submissionId}`);
 }
 
 export function fetchAttendanceSummaryQuery() {

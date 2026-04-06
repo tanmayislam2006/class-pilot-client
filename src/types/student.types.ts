@@ -8,6 +8,48 @@ export interface StudentUser {
   status: string;
 }
 
+export interface QuizOption {
+  key: string;
+  value: string;
+}
+
+export interface StudentAnswer {
+  questionId: string;
+  questionText: string;
+  options: QuizOption[];
+  selectedAnswer: string | null;
+  correctAnswer: string;
+  isCorrect: boolean;
+  points: number;
+  explanation: string | null;
+}
+
+export interface SubmissionDetailsData {
+  submission: {
+    id: string;
+    submittedAt: string;
+    score: number;
+    totalPoints: number;
+    percentage: number;
+    result: "PASS" | "FAIL";
+  };
+  quiz: {
+    id: string;
+    title: string;
+    description: string;
+    totalQuestions: number;
+    duration: number;
+  };
+  answers: StudentAnswer[];
+  summary: {
+    correctCount: number;
+    wrongCount: number;
+    skippedCount: number;
+  };
+}
+
+export type SubmissionDetailsResponse = ApiResponse<SubmissionDetailsData>;
+
 export interface TeacherInfo {
   id: string;
   phone: string;

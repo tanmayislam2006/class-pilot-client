@@ -3,6 +3,7 @@ import {
   StudentDashboardResponse,
   AssignedQuizzesResponse,
   SubmissionHistoryResponse,
+  SubmissionDetailsResponse,
   AttendanceSummaryResponse,
   FeeSummaryResponse,
   FeeHistoryResponse,
@@ -21,6 +22,10 @@ export const studentService = {
 
   getSubmissionHistory: async () => {
     return await httpClient.get<SubmissionHistoryResponse>("/student/submission-history");
+  },
+
+  getSubmissionDetails: async (submissionId: string) => {
+    return await httpClient.get<SubmissionDetailsResponse>(`/student/submissions/${submissionId}`);
   },
 
   getAttendanceSummary: async () => {
