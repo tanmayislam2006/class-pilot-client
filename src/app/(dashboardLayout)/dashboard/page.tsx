@@ -1,41 +1,28 @@
-import { BookOpen, CreditCard, SendHorizontal, Trophy } from "lucide-react";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
-import RoleDashboardHome from "@/components/modules/dashboard/RoleDashboardHome";
-import { studentRoutes } from "@/routes";
+import { studentQueryKeys, fetchStudentDashboardQuery } from "@/queries/student";
+import StudentDashboardHome from "./_components/StudentDashboardHome";
 
-export default function StudentDashboardPage() {
+export default async function StudentDashboardPage() {
+  const queryClient = new QueryClient();
+
+  try {
+    // Prefetch student dashboard data for instant hydration
+    await queryClient.prefetchQuery({
+      queryKey: studentQueryKeys.dashboard,
+      queryFn: fetchStudentDashboardQuery,
+    });
+  } catch (error) {
+    console.error("Dashboard prefetch failed:", error);
+  }
+
   return (
-    <RoleDashboardHome
-      eyebrow="Student workspace"
-      title="Keep up with quizzes, submissions, and your academic progress."
-      description="Track upcoming work, monitor your recent activity, and move through your quiz workflow from one clean dashboard."
-      metrics={[
-        {
-          label: "Quizzes Available",
-          value: "12",
-          note: "3 new quizzes waiting this week",
-          icon: BookOpen,
-        },
-        {
-          label: "Pending Submissions",
-          value: "04",
-          note: "Stay ahead of your deadlines",
-          icon: SendHorizontal,
-        },
-        {
-          label: "Fee Updates",
-          value: "02",
-          note: "Recent payment and dues tracked",
-          icon: CreditCard,
-        },
-        {
-          label: "Performance",
-          value: "89%",
-          note: "Your average score is improving",
-          icon: Trophy,
-        },
-      ]}
-      routes={studentRoutes}
-    />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <StudentDashboardHome />
+    </HydrationBoundary>
   );
 }
