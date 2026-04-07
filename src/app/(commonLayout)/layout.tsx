@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 
 export default function CommonLayout({
@@ -6,9 +7,10 @@ export default function CommonLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative flex min-h-screen flex-col">
+    <div className="relative flex  flex-col">
       <Navbar />
-      <main className="flex-1 pt-16">{children}</main>
+      <main className="flex-1 pt-16 min-h-[calc(100vh-100px)] ">{children}</main>
+      <Footer />
     </div>
   );
 }

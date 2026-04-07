@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { AppRoute } from "@/routes";
+import { GraduationCap } from "lucide-react";
 
 type DashboardSidebarProps = {
   activeHref: string | null;
@@ -51,24 +51,28 @@ export default function DashboardSidebar({
         <div className="px-4 py-5">
           <div
             className={cn(
-              "rounded-[24px] border border-border/70 bg-background/80 p-4 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.35)]",
               collapsed && "px-2",
             )}
           >
             <div className="flex items-center gap-3">
-              <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                {/* <Image src="/class-pilot-logo.png" alt="Logo" width={50} height={50} className="object-cover" /> */}
-              </div>
-              {!collapsed && (
-                <div className="min-w-0">
-                  <p className="truncate text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                    Class Pilot
-                  </p>
-                  <h1 className="truncate text-lg font-semibold tracking-tight">
-                    Dashboard
-                  </h1>
+              <Link
+                href="/"
+                className="group flex items-center gap-3 transition-opacity active:opacity-80"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 transition-transform group-hover:scale-110">
+                  <GraduationCap className="h-6 w-6 text-primary" />
                 </div>
-              )}
+                {!collapsed && (
+                  <div className="flex flex-col">
+                    <span className="text-base font-bold tracking-tight text-foreground">
+                      Class <span className="text-primary italic">Pilot</span>
+                    </span>
+                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/60 leading-none">
+                      Dashboard Hub
+                    </span>
+                  </div>
+                )}
+              </Link>
             </div>
           </div>
         </div>
@@ -117,7 +121,9 @@ export default function DashboardSidebar({
                   )}
                 >
                   <Icon className="size-4 shrink-0" />
-                  {!collapsed && <span className="truncate">{route.title}</span>}
+                  {!collapsed && (
+                    <span className="truncate">{route.title}</span>
+                  )}
                 </Link>
               );
             })}
@@ -129,8 +135,8 @@ export default function DashboardSidebar({
             <div className="rounded-[24px] border border-primary/15 bg-primary/5 p-4">
               <p className="text-sm font-semibold">Productive workspace</p>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                Role-aware navigation is active, so each dashboard only shows the tools
-                that belong to that user.
+                Role-aware navigation is active, so each dashboard only shows
+                the tools that belong to that user.
               </p>
             </div>
           </div>
