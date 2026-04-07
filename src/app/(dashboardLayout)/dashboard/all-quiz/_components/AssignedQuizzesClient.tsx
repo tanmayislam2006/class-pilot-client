@@ -5,9 +5,11 @@ import { Loader2 } from "lucide-react";
 
 import DataTable from "@/components/modules/data-table/DataTable";
 import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
+import EmptyState from "@/components/ui/EmptyState";
 import { studentRoutes } from "@/routes";
 import { studentQueryKeys, fetchAssignedQuizzesQuery, fetchStudentDashboardQuery } from "@/queries/student";
 import { quizColumns } from "./quiz-columns";
+import { ClipboardList } from "lucide-react";
 
 export default function AssignedQuizzesClient() {
   const { data, isLoading } = useQuery({
@@ -66,17 +68,27 @@ export default function AssignedQuizzesClient() {
       />
 
       <section className="px-1 pb-10">
-        <div className="rounded-[24px] border border-border/60 bg-card/40 p-1 shadow-sm transition-all hover:border-border/80 hover:bg-card/60">
-          <DataTable
-            data={quizzes}
-            columns={quizColumns}
-            getRowId={(row) => row.id}
-            search={{
-              getText: (row) => row.title,
-              placeholder: "Search quizzes by title...",
-            }}
+        {quizzes.length > 0 ? (
+          <div className="rounded-[24px] border border-border/60 bg-card/40 p-1 shadow-sm transition-all hover:border-border/80 hover:bg-card/60">
+            <DataTable
+              data={quizzes}
+              columns={quizColumns}
+              getRowId={(row) => row.id}
+              search={{
+                getText: (row) => row.title,
+                placeholder: "Search quizzes by title...",
+              }}
+            />
+          </div>
+        ) : (
+          <EmptyState
+            icon={ClipboardList}
+            title="No Quizzes Found"
+            description="You don't have any quizzes assigned to your batch yet. Check back later or contact your instructor."
+            actionLabel="Return Dashboard"
+            actionHref="/dashboard"
           />
-        </div>
+        )}
       </section>
     </div>
   );
