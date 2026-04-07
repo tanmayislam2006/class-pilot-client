@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldError, FieldDescription } from "@/components/ui/field";
+import { cn } from "@/lib/utils";
 
 export default function CreateQuizForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -233,43 +234,133 @@ export default function CreateQuizForm() {
                 )}
               </Field>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <div className="space-y-6">
+                  {/* Option A */}
                   <Field>
-                    <FieldLabel className="flex items-center gap-2">
-                      <span className="bg-muted px-2 rounded-md font-mono text-xs">A</span> Option A
-                    </FieldLabel>
-                    <Input {...register(`questions.${index}.optionA` as const)} placeholder="First option" />
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <FieldLabel className="flex items-center gap-2 m-0">
+                        <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md font-mono text-xs font-bold">A</span> 
+                        Option A
+                      </FieldLabel>
+                      <label className="flex items-center gap-2 cursor-pointer group/correct">
+                        <input
+                          type="radio"
+                          value="A"
+                          className="size-4 accent-primary cursor-pointer"
+                          {...register(`questions.${index}.correctAnswer` as const)}
+                        />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover/correct:text-primary transition-colors">
+                          Correct
+                        </span>
+                      </label>
+                    </div>
+                    <Input 
+                      {...register(`questions.${index}.optionA` as const)} 
+                      placeholder="Enter first option" 
+                      className={cn(
+                        "transition-all",
+                        control._formValues.questions?.[index]?.correctAnswer === "A" && "border-primary/50 bg-primary/5 ring-1 ring-primary/20"
+                      )}
+                    />
                     {errors.questions?.[index]?.optionA && (
                       <FieldError>{errors.questions[index]?.optionA?.message}</FieldError>
                     )}
                   </Field>
+
+                  {/* Option B */}
                   <Field>
-                    <FieldLabel className="flex items-center gap-2">
-                       <span className="bg-muted px-2 rounded-md font-mono text-xs">B</span> Option B
-                    </FieldLabel>
-                    <Input {...register(`questions.${index}.optionB` as const)} placeholder="Second option" />
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <FieldLabel className="flex items-center gap-2 m-0">
+                         <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md font-mono text-xs font-bold">B</span> 
+                         Option B
+                      </FieldLabel>
+                      <label className="flex items-center gap-2 cursor-pointer group/correct">
+                        <input
+                          type="radio"
+                          value="B"
+                          className="size-4 accent-primary cursor-pointer"
+                          {...register(`questions.${index}.correctAnswer` as const)}
+                        />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover/correct:text-primary transition-colors">
+                          Correct
+                        </span>
+                      </label>
+                    </div>
+                    <Input 
+                      {...register(`questions.${index}.optionB` as const)} 
+                      placeholder="Enter second option" 
+                      className={cn(
+                        "transition-all",
+                        control._formValues.questions?.[index]?.correctAnswer === "B" && "border-primary/50 bg-primary/5 ring-1 ring-primary/20"
+                      )}
+                    />
                     {errors.questions?.[index]?.optionB && (
                       <FieldError>{errors.questions[index]?.optionB?.message}</FieldError>
                     )}
                   </Field>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
+                  {/* Option C */}
                   <Field>
-                    <FieldLabel className="flex items-center gap-2">
-                      <span className="bg-muted px-2 rounded-md font-mono text-xs">C</span> Option C
-                    </FieldLabel>
-                    <Input {...register(`questions.${index}.optionC` as const)} placeholder="Third option" />
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <FieldLabel className="flex items-center gap-2 m-0">
+                        <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md font-mono text-xs font-bold">C</span> 
+                        Option C
+                      </FieldLabel>
+                      <label className="flex items-center gap-2 cursor-pointer group/correct">
+                        <input
+                          type="radio"
+                          value="C"
+                          className="size-4 accent-primary cursor-pointer"
+                          {...register(`questions.${index}.correctAnswer` as const)}
+                        />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover/correct:text-primary transition-colors">
+                          Correct
+                        </span>
+                      </label>
+                    </div>
+                    <Input 
+                      {...register(`questions.${index}.optionC` as const)} 
+                      placeholder="Enter third option" 
+                      className={cn(
+                        "transition-all",
+                        control._formValues.questions?.[index]?.correctAnswer === "C" && "border-primary/50 bg-primary/5 ring-1 ring-primary/20"
+                      )}
+                    />
                     {errors.questions?.[index]?.optionC && (
                       <FieldError>{errors.questions[index]?.optionC?.message}</FieldError>
                     )}
                   </Field>
+
+                  {/* Option D */}
                   <Field>
-                    <FieldLabel className="flex items-center gap-2">
-                       <span className="bg-muted px-2 rounded-md font-mono text-xs">D</span> Option D
-                    </FieldLabel>
-                    <Input {...register(`questions.${index}.optionD` as const)} placeholder="Fourth option" />
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <FieldLabel className="flex items-center gap-2 m-0">
+                         <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md font-mono text-xs font-bold">D</span> 
+                         Option D
+                      </FieldLabel>
+                      <label className="flex items-center gap-2 cursor-pointer group/correct">
+                        <input
+                          type="radio"
+                          value="D"
+                          className="size-4 accent-primary cursor-pointer"
+                          {...register(`questions.${index}.correctAnswer` as const)}
+                        />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover/correct:text-primary transition-colors">
+                          Correct
+                        </span>
+                      </label>
+                    </div>
+                    <Input 
+                      {...register(`questions.${index}.optionD` as const)} 
+                      placeholder="Enter fourth option" 
+                      className={cn(
+                        "transition-all",
+                        control._formValues.questions?.[index]?.correctAnswer === "D" && "border-primary/50 bg-primary/5 ring-1 ring-primary/20"
+                      )}
+                    />
                     {errors.questions?.[index]?.optionD && (
                       <FieldError>{errors.questions[index]?.optionD?.message}</FieldError>
                     )}
@@ -277,27 +368,18 @@ export default function CreateQuizForm() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-dashed">
-                <Field className="max-w-[200px]">
-                  <FieldLabel>Correct Answer</FieldLabel>
-                  <select
-                    {...register(`questions.${index}.correctAnswer` as const)}
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  >
-                    <option value="A">Option A</option>
-                    <option value="B">Option B</option>
-                    <option value="C">Option C</option>
-                    <option value="D">Option D</option>
-                  </select>
-                </Field>
+              <div className="flex flex-col sm:flex-row items-end sm:items-center justify-between gap-4 pt-4 border-t border-dashed border-border/60">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-primary/5 border border-primary/10">
+                   <span className="text-xs font-bold text-primary uppercase">Marked Answer:</span>
+                   <span className="text-sm font-black text-primary">{control._formValues.questions?.[index]?.correctAnswer}</span>
+                </div>
 
-                {/* Point Field - Readonly/Hidden by default but accessible to register in the payload */}
-                {/* Even though it's hidden, we show it neatly if the user wants to adjust it, or just leave it */}
                 <Field className="max-w-[150px]">
                   <FieldLabel>Points</FieldLabel>
                   <Input 
                     type="number" 
                     {...register(`questions.${index}.point` as const, { valueAsNumber: true })} 
+                    className="h-10 rounded-xl"
                   />
                   <FieldDescription>Defaults to 1.</FieldDescription>
                 </Field>
@@ -305,9 +387,38 @@ export default function CreateQuizForm() {
             </CardContent>
           </Card>
         ))}
+
+        {/* Bottom Add Question Button for UX */}
+        {fields.length > 0 && (
+            <div className="flex justify-center pt-4">
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="group flex items-center gap-3 rounded-[20px] border-primary/20 bg-primary/5 px-10 py-6 text-base font-bold text-primary transition-all hover:bg-primary/10 hover:border-primary/30"
+                    onClick={() => {
+                        append({
+                            questionText: "",
+                            optionA: "",
+                            optionB: "",
+                            optionC: "",
+                            optionD: "",
+                            correctAnswer: "A",
+                            point: 1,
+                        });
+                        // Smooth scroll to the bottom after adding
+                        setTimeout(() => {
+                           window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                        }, 100);
+                    }}
+                >
+                    <Plus className="h-5 w-5 transition-transform group-hover:rotate-90" />
+                    Add Another Question
+                </Button>
+            </div>
+        )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t p-4 flex justify-between items-center sm:pl-72 z-50">
+      <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t p-4 flex justify-between items-center lg:pl-72 z-40">
         <div className="text-sm font-medium text-muted-foreground hidden sm:block">
           Total Questions: {fields.length}
         </div>
@@ -317,21 +428,20 @@ export default function CreateQuizForm() {
             variant="ghost" 
             onClick={() => reset()} 
             disabled={isSubmitting}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto h-12 rounded-2xl"
           >
             Reset Form
           </Button>
           <Button 
             type="submit" 
             disabled={isSubmitting || fields.length === 0}
-            className="w-full sm:w-auto px-8"
+            className="w-full sm:w-auto h-12 rounded-2xl px-10 bg-primary shadow-lg shadow-primary/20 font-bold"
           >
             {isSubmitting ? "Publishing..." : "Publish Quiz"}
-            {!isSubmitting && <ChevronRight className="ml-2 h-4 w-4" />}
+            {!isSubmitting && <ChevronRight className="ml-2 h-5 w-5" />}
           </Button>
         </div>
-      </div>
-      {typeof errors.questions?.root?.message === "string" && (
+      </div>{typeof errors.questions?.root?.message === "string" && (
           <p className="text-destructive font-medium">{errors.questions.root.message}</p>
       )}
     </form>
