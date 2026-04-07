@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -26,7 +23,16 @@ import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
+import { 
+  Eye, 
+  EyeOff, 
+  LockKeyhole, 
+  Mail, 
+  ChevronRight, 
+  KeyRound, 
+  Zap, 
+  CircleUser 
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -37,7 +43,6 @@ export default function LoginForm() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-
 
   const redirectFromUrl = searchParams.get("redirect");
 
@@ -69,7 +74,7 @@ export default function LoginForm() {
         const result = await mutateAsync(value);
 
         if (!result.success) {
-          setServerError(result.message || "Login failed");
+          setServerError(result.message || "Access Denied: Check pilot credentials");
           return;
         }
 
@@ -91,7 +96,7 @@ export default function LoginForm() {
         const message =
           error instanceof Error
             ? error.message
-            : "An unexpected error occurred";
+            : "Flight controller error: Unexpected disconnect";
 
         setServerError(`Login failed: ${message}`);
       }
@@ -104,50 +109,62 @@ export default function LoginForm() {
   };
 
   return (
-    <Card className="mx-auto w-full max-w-md border-border/70 shadow-xl">
-      <CardHeader className="space-y-3 text-center">
-        <CardTitle className="text-2xl font-semibold">
-          Welcome Back
-        </CardTitle>
-        <CardDescription>
-          Choose role & login instantly
-        </CardDescription>
+    <Card className="overflow-hidden border border-border/40 bg-background/80 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.15)] backdrop-blur-2xl transition-all duration-300 hover:shadow-primary/5 ring-1 ring-white/10 rounded-[32px]">
+      <div className="bg-primary/5 p-4 text-center border-b border-border/40">
+        <div className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-primary/60">
+            <Zap className="h-3 w-3 fill-primary text-primary" />
+            Active Boarding Sequence
+        </div>
+      </div>
+      
+      <CardContent className="p-8 lg:p-10">
+        <div className="mb-10 text-center">
+            <Tabs
+                defaultValue="student"
+                onValueChange={(value) =>
+                    handleRoleChange(value as "student" | "teacher" | "admin")
+                }
+                className="w-full"
+            >
+                <TabsList className="grid w-full grid-cols-3 h-12 bg-muted/40 p-1 rounded-2xl">
+                    <TabsTrigger value="student" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-bold transition-all flex gap-1.5 leading-none">
+                        Student
+                    </TabsTrigger>
+                    <TabsTrigger value="teacher" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-bold transition-all flex gap-1.5 leading-none">
+                        Teacher
+                    </TabsTrigger>
+                    <TabsTrigger value="admin" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg font-bold transition-all flex gap-1.5 leading-none">
+                        Admin
+                    </TabsTrigger>
+                </TabsList>
+            </Tabs>
+        </div>
 
-        <Tabs
-          defaultValue="student"
-          onValueChange={(value) =>
-            handleRoleChange(value as "student" | "teacher" | "admin")
-          }
-        >
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="student">Student</TabsTrigger>
-            <TabsTrigger value="teacher">Teacher</TabsTrigger>
-            <TabsTrigger value="admin">Admin</TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </CardHeader>
-
-      <CardContent className="space-y-5">
         <form
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
             form.handleSubmit();
           }}
-          className="space-y-4"
+          className="space-y-6"
         >
           <form.Field
             name="email"
             validators={{ onChange: loginZodSchema.shape.email }}
           >
             {(field) => (
-              <AppField
-                field={field}
-                label="Email"
-                type="email"
-                placeholder="name@example.com"
-                prepend={<Mail className="size-4 text-muted-foreground" />}
-              />
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                   <CircleUser className="h-3 w-3 text-primary" />
+                   Pilot Identity
+                </label>
+                <AppField
+                  field={field}
+                  type="email"
+                  placeholder="name@example.com"
+                  className="h-14 rounded-2xl bg-muted/30 border-border/40 focus:bg-background transition-all outline-none"
+                  prepend={<Mail className="size-4 text-muted-foreground" />} label={""}                />
+              </div>
             )}
           </form.Field>
 
@@ -156,45 +173,46 @@ export default function LoginForm() {
             validators={{ onChange: loginZodSchema.shape.password }}
           >
             {(field) => (
-              <AppField
-                field={field}
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                prepend={
-                  <LockKeyhole className="size-4 text-muted-foreground" />
-                }
-                append={
-                  <Button
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                   <KeyRound className="h-3 w-3 text-primary" />
+                   Security Key
+                </label>
+                <AppField
+                  field={field}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your passkey"
+                  className="h-14 rounded-2xl bg-muted/30 border-border/40 focus:bg-background transition-all outline-none"
+                  prepend={<LockKeyhole className="size-4 text-muted-foreground" />}
+                  append={<Button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     variant="ghost"
                     size="icon"
-                    className="h-7 w-7"
+                    className="h-8 w-8 hover:bg-primary/10 hover:text-primary transition-all mr-1 rounded-xl"
                   >
                     {showPassword ? (
                       <EyeOff className="size-4" />
                     ) : (
                       <Eye className="size-4" />
                     )}
-                  </Button>
-                }
-              />
+                  </Button>} label={""}                />
+              </div>
             )}
           </form.Field>
 
           <div className="text-right">
             <Link
               href="/forgot-password"
-              className="text-sm text-primary hover:underline"
+              className="text-xs font-bold uppercase tracking-widest text-primary hover:text-primary/70 transition-all"
             >
-              Forgot password?
+              Recover Key?
             </Link>
           </div>
 
           {serverError && (
-            <Alert variant="destructive">
-              <AlertDescription>{serverError}</AlertDescription>
+            <Alert variant="destructive" className="rounded-2xl border-destructive/20 bg-destructive/5 text-destructive animate-in fade-in zoom-in-95">
+              <AlertDescription className="text-sm font-bold tracking-tight">{serverError}</AlertDescription>
             </Alert>
           )}
 
@@ -204,22 +222,22 @@ export default function LoginForm() {
             {([canSubmit, isSubmitting]) => (
               <AppSubmitButton
                 isPending={isSubmitting || isPending}
-                pendingLabel="Logging in..."
+                pendingLabel="Authenticating Pilot..."
                 disabled={!canSubmit}
-                className="h-10 text-sm font-semibold"
+                className="h-16 w-full rounded-[20px] bg-primary text-base font-black shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-white"
               >
-                Log In
+                Boarding Mission <ChevronRight className="ml-2 h-5 w-5" />
               </AppSubmitButton>
             )}
           </form.Subscribe>
         </form>
       </CardContent>
 
-      <CardFooter className="justify-center border-t pt-4">
-        <p className="text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-primary hover:underline">
-            Sign up
+      <CardFooter className="justify-center border-t border-border/40 bg-muted/20 py-8 lg:py-10">
+        <p className="text-sm font-medium text-muted-foreground/80">
+          First-time pilot?{" "}
+          <Link href="/register" className="text-primary font-bold hover:underline">
+            Register your cockpit
           </Link>
         </p>
       </CardFooter>
