@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import Loading from "@/components/ui/Loading";
 import {
   Table,
   TableBody,
@@ -28,6 +29,7 @@ type DataTableProps<TData> = {
   data: TData[];
   emptyMessage?: string;
   getRowId: (row: TData) => string;
+  isLoading?: boolean;
   search?: {
     getText: (row: TData) => string;
     placeholder?: string;
@@ -42,6 +44,7 @@ export default function DataTable<TData>({
   data,
   emptyMessage = "No data available.",
   getRowId,
+  isLoading = false,
   search,
   subtitle,
   title,
@@ -110,7 +113,16 @@ export default function DataTable<TData>({
         </TableHeader>
 
         <TableBody>
-          {filteredRows.length ? (
+          {isLoading && !data.length ? (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="h-32 text-center"
+              >
+                <Loading message="Fetching data..." />
+              </TableCell>
+            </TableRow>
+          ) : filteredRows.length ? (
             filteredRows.map((row) => (
               <TableRow key={getRowId(row)}>
                 {columns.map((column) => (

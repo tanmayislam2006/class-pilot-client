@@ -45,7 +45,6 @@ export default function LoginForm() {
   const searchParams = useSearchParams();
 
   const redirectFromUrl = searchParams.get("redirect");
-
   const credentials = {
     student: {
       email: "alice@example.com",

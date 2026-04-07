@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 import DashboardNavbar from "@/components/layout/DashboardNavbar";
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
+import Loading from "@/components/ui/Loading";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { formatRoleLabel } from "@/lib/authUtils";
 import { useAuth } from "@/providers/AuthProvider";
@@ -32,18 +33,7 @@ export default function DashboardLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   if (loading && !role) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(99,57,166,0.14),_transparent_38%),linear-gradient(180deg,_rgba(255,255,255,1),_rgba(248,247,252,1))] px-6">
-        <div className="w-full max-w-sm rounded-3xl border border-border/70 bg-card/90 p-8 text-center shadow-xl backdrop-blur">
-          <p className="text-sm font-medium text-muted-foreground">
-            Loading dashboard
-          </p>
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
-            <div className="h-full w-2/3 animate-pulse rounded-full bg-primary" />
-          </div>
-        </div>
-      </div>
-    );
+    return <Loading fullPage message="Initializing dashboard..." />;
   }
 
   if (!role) {
@@ -64,7 +54,7 @@ export default function DashboardLayout({
   const activeRoute = getActiveRoute(pathname, routes);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(99,57,166,0.12),_transparent_35%),linear-gradient(180deg,_rgba(255,255,255,1),_rgba(248,247,252,1))]">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(99,57,166,0.12),transparent_35%),linear-gradient(180deg,rgba(255,255,255,1),rgba(248,247,252,1))]">
       <div className="flex min-h-screen">
         <DashboardSidebar
           activeHref={activeRoute?.href ?? null}

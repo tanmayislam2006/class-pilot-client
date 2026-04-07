@@ -37,6 +37,7 @@ export default function AdminStudentsTable() {
       columns={studentColumns}
       data={(data?.data ?? []).map(mapStudentToRow)}
       getRowId={(row) => row.id}
+      isLoading={isPending}
       search={{
         placeholder: "Search student by name, email, or batch",
         getText: (row) => `${row.name} ${row.email} ${row.batch}`,

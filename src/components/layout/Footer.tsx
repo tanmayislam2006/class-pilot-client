@@ -141,9 +141,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      
-      {/* Decorative gradient blur */}
-      <div className="absolute -bottom-10 left-1/2 -z-10 h-64 w-full -translate-x-1/2 bg-primary/5 blur-[120px]" />
     </footer>
   );
 }

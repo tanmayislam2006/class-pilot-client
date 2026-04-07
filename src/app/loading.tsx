@@ -1,3 +1,5 @@
+import Loading from "@/components/ui/Loading";
+
 export default function GlobalLoadingPage() {
-    return <h1 className="text-center text-4xl">Global Loading ......</h1>
+    return <Loading fullPage message="Preparing your airspace..." />
 };
