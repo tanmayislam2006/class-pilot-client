@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { AppRoute } from "@/routes";
-import Image from "next/image";
 
 type DashboardSidebarProps = {
   activeHref: string | null;

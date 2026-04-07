@@ -14,7 +14,6 @@ export async function getUserInfo() {
 
 export const loginAction = async (
   payload: ILoginPayload,
-  redirectPath?: string,
 ): Promise<ApiResponse<LoginData>> => {
   const parsedPayload = loginZodSchema.safeParse(payload);
   

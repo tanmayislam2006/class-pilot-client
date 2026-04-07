@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, TrendingUp, TrendingDown } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import DataTable, { DataTableColumn } from "@/components/modules/data-table/DataTable";
 import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";

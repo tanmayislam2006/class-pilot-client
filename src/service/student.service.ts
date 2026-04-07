@@ -8,7 +8,6 @@ import {
   FeeSummaryResponse,
   FeeHistoryResponse,
   QuizSubmissionPayload,
-  ApiResponse,
   QuizDetailsResponse,
   QuizSubmissionResponse,
   PaymentSessionResponse,
