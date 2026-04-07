@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LayoutDashboard, LogOut, User } from "lucide-react";
+import { Home, LayoutDashboard, LogOut, User } from "lucide-react";
 
 import {
   Avatar,
@@ -69,6 +69,12 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem asChild className="cursor-pointer gap-2 focus:bg-primary/5 focus:text-primary">
+            <Link href="/">
+              <Home className="h-4 w-4" />
+              <span>Home</span>
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild className="cursor-pointer gap-2 focus:bg-primary/5 focus:text-primary">
             <Link href={dashboardHref}>
               <LayoutDashboard className="h-4 w-4" />

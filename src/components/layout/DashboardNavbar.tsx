@@ -2,12 +2,9 @@
 
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-} from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { UserNav } from "./UserNav";
 
 type DashboardNavbarProps = {
   collapsed: boolean;
@@ -15,17 +12,7 @@ type DashboardNavbarProps = {
   onToggleCollapsed: () => void;
   roleLabel: string;
   title: string;
-  userName: string;
 };
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? "")
-    .join("");
-}
 
 export default function DashboardNavbar({
   collapsed,
@@ -33,7 +20,6 @@ export default function DashboardNavbar({
   onToggleCollapsed,
   roleLabel,
   title,
-  userName,
 }: DashboardNavbarProps) {
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/70 backdrop-blur-xl">
@@ -80,16 +66,7 @@ export default function DashboardNavbar({
             {roleLabel}
           </Badge>
 
-          <div className="hidden text-right sm:block">
-            <p className="text-sm font-medium leading-none">{userName}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Signed in
-            </p>
-          </div>
-
-          <Avatar className="border border-border/70 bg-card shadow-sm">
-            <AvatarFallback>{getInitials(userName)}</AvatarFallback>
-          </Avatar>
+          <UserNav />
         </div>
       </div>
     </header>

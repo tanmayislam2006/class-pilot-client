@@ -28,7 +28,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { loading, role, user } = useAuth();
+  const { loading, role } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -72,7 +72,6 @@ export default function DashboardLayout({
             onToggleCollapsed={() => setCollapsed((value) => !value)}
             roleLabel={formatRoleLabel(role)}
             title={activeRoute?.title ?? "Dashboard"}
-            userName={user?.name ?? "Dashboard User"}
           />
 
           <main className="flex-1 px-4 py-5 md:px-6 md:py-6">
