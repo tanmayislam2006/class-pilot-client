@@ -58,3 +58,12 @@ export const loginAction = async (
     };
   }
 };
+
+export const logoutAction = async () => {
+    const { deleteCookie } = await import("@/lib/cookieUtils");
+    await Promise.all([
+      deleteCookie("better-auth.session_token"),
+      deleteCookie("accessToken"),
+      deleteCookie("refreshToken"),
+    ]);
+};
