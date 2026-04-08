@@ -1,12 +1,16 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
+import VerifyEmailUI from "@/components/modules/Auth/VerifyEmailUI";
+import React from "react";
+
+export const metadata = {
+  title: "Verify Signal | Class Pilot",
+  description: "Complete email verification to activate your Class Pilot profile.",
+};
 
 type VerifyEmailPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-const VerifyEmailPage = async ({ searchParams }: VerifyEmailPageProps) => {
+export default async function VerifyEmailPage({ searchParams }: VerifyEmailPageProps) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const email = resolvedSearchParams.email;
   const registered = resolvedSearchParams.registered;
@@ -15,42 +19,8 @@ const VerifyEmailPage = async ({ searchParams }: VerifyEmailPageProps) => {
   const isJustRegistered = registered === "true";
 
   return (
-    <Card className="mx-auto w-full max-w-md border-border/70 shadow-xl">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-semibold tracking-tight">
-          Verify Your Email
-        </CardTitle>
-        <CardDescription>
-          Complete your account activation before logging in.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {isJustRegistered && (
-          <Alert>
-            <AlertTitle>Registration successful</AlertTitle>
-            <AlertDescription>
-              Please verify your email{safeEmail ? `: ${safeEmail}` : ""}.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <Alert>
-          <AlertTitle>Verification logic pending</AlertTitle>
-          <AlertDescription>
-            Email verification action and resend flow will be added soon.
-          </AlertDescription>
-        </Alert>
-
-        <p className="text-sm text-muted-foreground">
-          After verifying your email, continue to{" "}
-          <Link href="/login" className="font-medium text-primary hover:underline underline-offset-4">
-            login
-          </Link>
-          .
-        </p>
-      </CardContent>
-    </Card>
+    <div className="flex min-h-[calc(100vh-100px)] items-center justify-center py-12 px-4">
+      <VerifyEmailUI email={safeEmail} isJustRegistered={isJustRegistered} />
+    </div>
   );
-};
-
-export default VerifyEmailPage;
+}

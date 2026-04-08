@@ -334,7 +334,7 @@ export default function HomePage() {
                 <p className="text-xl text-white/60 mb-14 max-w-xl mx-auto italic">Join the most advanced squadron in digital education. Your flight plan starts here.</p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
                     <Button asChild size="lg" className="h-16 w-full sm:w-80 rounded-[28px] bg-primary text-xl font-black shadow-[0_20px_40px_-15px_rgba(99,57,166,0.5)] hover:scale-[1.03] active:scale-95 transition-all outline-none ring-primary/20 hover:ring-2">
-                        <Link href="/register">Register My Cockpit</Link>
+                        <Link href="/register">Join the Squadron</Link>
                     </Button>
                     <Button asChild variant="outline" className="h-16 w-full sm:w-80 rounded-[28px] border-white/20 bg-white/5 text-xl font-black hover:bg-white hover:text-black hover:scale-[1.03] active:scale-95 transition-all backdrop-blur-md outline-none">
                         <Link href="/login">Pilot Login</Link>
