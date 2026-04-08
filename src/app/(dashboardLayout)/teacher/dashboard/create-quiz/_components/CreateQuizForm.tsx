@@ -16,6 +16,38 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldError, FieldDescription } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
+import { MathText } from "@/components/shared/MathText";
+import { useWatch, Control } from "react-hook-form";
+
+function QuestionPreview({ control, index }: { control: Control<CreateQuizFormData>; index: number }) {
+  const questionText = useWatch({ control, name: `questions.${index}.questionText` });
+  const optionA = useWatch({ control, name: `questions.${index}.optionA` });
+  const optionB = useWatch({ control, name: `questions.${index}.optionB` });
+  const optionC = useWatch({ control, name: `questions.${index}.optionC` });
+  const optionD = useWatch({ control, name: `questions.${index}.optionD` });
+
+  if (!questionText && !optionA && !optionB && !optionC && !optionD) return null;
+
+  return (
+    <div className="mt-4 p-4 rounded-lg border border-dashed border-primary/20 bg-primary/5 space-y-3">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="text-[10px] font-bold uppercase tracking-wider text-primary/60">Live Preview</span>
+      </div>
+      {questionText && (
+        <div className="space-y-1">
+           <p className="text-[10px] uppercase font-bold text-muted-foreground/60">Question:</p>
+           <MathText text={questionText} className="font-medium" />
+        </div>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+        {optionA && <div><span className="font-bold mr-2 text-primary/60">A</span><MathText text={optionA} /></div>}
+        {optionB && <div><span className="font-bold mr-2 text-primary/60">B</span><MathText text={optionB} /></div>}
+        {optionC && <div><span className="font-bold mr-2 text-primary/60">C</span><MathText text={optionC} /></div>}
+        {optionD && <div><span className="font-bold mr-2 text-primary/60">D</span><MathText text={optionD} /></div>}
+      </div>
+    </div>
+  );
+}
 
 export default function CreateQuizForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -232,6 +264,7 @@ export default function CreateQuizForm() {
                 {errors.questions?.[index]?.questionText && (
                   <FieldError>{errors.questions[index]?.questionText?.message}</FieldError>
                 )}
+                <QuestionPreview control={control} index={index} />
               </Field>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">

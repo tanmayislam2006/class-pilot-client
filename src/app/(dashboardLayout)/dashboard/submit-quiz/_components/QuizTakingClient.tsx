@@ -25,6 +25,7 @@ import { studentQueryKeys, fetchQuizDetailsQuery, submitQuizMutation } from "@/q
 // import { studentService } from "@/service/student.service";
 import { cn } from "@/lib/utils";
 import { QuizSubmissionResponseData, QuizDetailsQuestion, QuizSubmissionPayload } from "@/types/student.types";
+import { MathText } from "@/components/shared/MathText";
 
 interface QuizTakingClientProps {
   batchId: string;
@@ -78,9 +79,10 @@ export default function QuizTakingClient({ batchId, quizId }: QuizTakingClientPr
   // Timer logic - only initialize once when quiz data is available
   useEffect(() => {
     if (quiz && timeLeft === null) {
-      setTimeLeft(quiz.duration * 60);
+      const initialTime = quiz.duration * 60;
+      setTimeLeft(initialTime);
     }
-  }, [quiz, timeLeft]); // Re-run if quiz data arrives while timeLeft is null
+  }, [quiz?.duration, timeLeft]); // Use quiz.duration instead of whole quiz object
 
   useEffect(() => {
     if (timeLeft === null || timeLeft <= 0 || result) return;
@@ -199,7 +201,7 @@ export default function QuizTakingClient({ batchId, quizId }: QuizTakingClientPr
                         <div className="flex justify-between items-start gap-4 mb-4">
                            <div className="space-y-1">
                               <span className="text-xs font-bold text-muted-foreground uppercase">Question {idx + 1}</span>
-                              <p className="font-semibold text-foreground/90">{q.questionText}</p>
+                              <MathText className="font-semibold text-foreground/90" text={q.questionText} />
                            </div>
                            <Badge variant={isCorrect ? "default" : "destructive"} className="shrink-0">
                               {isCorrect ? <CheckCircle2 className="h-3 w-3 mr-1" /> : <XCircle className="h-3 w-3 mr-1" />}
@@ -224,7 +226,7 @@ export default function QuizTakingClient({ batchId, quizId }: QuizTakingClientPr
                                 )}>
                                   {opt}
                                 </span>
-                                <span>{q[`option${opt}` as keyof QuizDetailsQuestion] as string}</span>
+                                <MathText text={q[`option${opt}` as keyof QuizDetailsQuestion] as string} />
                              </div>
                            ))}
                         </div>
@@ -317,7 +319,7 @@ export default function QuizTakingClient({ batchId, quizId }: QuizTakingClientPr
                     )}
                   </div>
                   <CardTitle className="text-2xl leading-relaxed font-semibold transition-all duration-300">
-                    {currentQuestion?.questionText}
+                    <MathText text={currentQuestion?.questionText} />
                   </CardTitle>
                </CardHeader>
                
@@ -342,12 +344,13 @@ export default function QuizTakingClient({ batchId, quizId }: QuizTakingClientPr
                          )}>
                            {opt}
                          </div>
-                         <span className={cn(
-                           "text-lg font-medium transition-colors",
-                           answers[currentQuestion?.id] === opt ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
-                         )}>
-                            {currentQuestion[`option${opt}` as keyof QuizDetailsQuestion] as string}
-                         </span>
+                         <MathText 
+                           className={cn(
+                             "text-lg font-medium transition-colors",
+                             answers[currentQuestion?.id] === opt ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
+                           )}
+                           text={currentQuestion[`option${opt}` as keyof QuizDetailsQuestion] as string} 
+                          />
                          {answers[currentQuestion?.id] === opt && (
                            <CheckCircle2 className="ml-auto h-6 w-6 text-primary animate-in zoom-in" />
                          )}

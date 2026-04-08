@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { TeacherQuizDetailsData, TeacherQuizQuestionItem, UpdateQuizPayload, UpdateQuizQuestionPayload, AddQuizQuestionPayload } from "@/types/teacher.types";
+import { MathText } from "@/components/shared/MathText";
 
 export default function QuizDetailsClient({ quiz, batchId, quizId }: { quiz: TeacherQuizDetailsData; batchId: string; quizId: string }) {
   const router = useRouter();
@@ -292,9 +293,10 @@ export default function QuizDetailsClient({ quiz, batchId, quizId }: { quiz: Tea
                 <Edit2 className="w-4 h-4 text-muted-foreground hover:text-primary" />
             </Button>
           </div>
-          <p className="text-muted-foreground bg-muted/30 p-4 rounded-lg border leading-relaxed">
-            {quiz.description || "No description provided."}
-          </p>
+           <MathText 
+             className="text-muted-foreground bg-muted/30 p-4 rounded-lg border leading-relaxed block"
+             text={quiz.description || "No description provided."}
+           />
         </>
       )}
 
@@ -487,9 +489,7 @@ export default function QuizDetailsClient({ quiz, batchId, quizId }: { quiz: Tea
                     </div>
                   </div>
                   <CardContent className="p-5">
-                    <p className="font-medium text-lg leading-snug mb-6">
-                      {question.questionText}
-                    </p>
+                    <MathText className="font-medium text-lg leading-snug mb-6 block" text={question.questionText} />
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {['A', 'B', 'C', 'D'].map((letter) => {
@@ -513,9 +513,7 @@ export default function QuizDetailsClient({ quiz, batchId, quizId }: { quiz: Tea
                             `}>
                               {letter}
                             </span>
-                            <span className={`${isCorrect ? "text-green-800 dark:text-green-400 font-medium" : "text-foreground"}`}>
-                              {String(optionText || "")}
-                            </span>
+                            <MathText className={`${isCorrect ? "text-green-800 dark:text-green-400 font-medium" : "text-foreground"}`} text={String(optionText || "")} />
                             
                             {isCorrect && (
                               <CheckCircle2 className="w-4 h-4 ml-auto text-green-600" />

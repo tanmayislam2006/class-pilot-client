@@ -25,6 +25,7 @@ import { studentQueryKeys, fetchSubmissionDetailsQuery } from "@/queries/student
 import DashboardFeaturePage from "@/components/modules/dashboard/DashboardFeaturePage";
 import { studentRoutes } from "@/routes";
 import { cn } from "@/lib/utils";
+import { MathText } from "@/components/shared/MathText";
 
 interface SubmissionDetailsClientProps {
   submissionId: string;
@@ -211,9 +212,7 @@ export default function SubmissionDetailsClient({ submissionId }: SubmissionDeta
                       
                       <div className="flex-1 space-y-4">
                         <div className="flex justify-between items-start gap-4">
-                          <p className="font-medium text-[15px] leading-relaxed">
-                            {answer.questionText}
-                          </p>
+                          <MathText className="font-medium text-[15px] leading-relaxed" text={answer.questionText} />
                           <Badge 
                             variant="secondary" 
                             className={cn(
@@ -256,7 +255,7 @@ export default function SubmissionDetailsClient({ submissionId }: SubmissionDeta
                                 )}>
                                   {option.key}
                                 </span>
-                                <span>{option.value}</span>
+                                <MathText text={option.value} />
                                 {isCorrectOption && (
                                   <CheckCircle2 className="h-3.5 w-3.5 ml-auto text-emerald-500" />
                                 )}
@@ -273,9 +272,7 @@ export default function SubmissionDetailsClient({ submissionId }: SubmissionDeta
                             <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                             <div className="space-y-1">
                               <p className="font-semibold text-primary/80 text-xs uppercase tracking-wider">Explanation</p>
-                              <p className="text-muted-foreground leading-relaxed italic">
-                                {answer.explanation}
-                              </p>
+                              <MathText className="text-muted-foreground leading-relaxed italic" text={answer.explanation} />
                             </div>
                           </div>
                         )}
