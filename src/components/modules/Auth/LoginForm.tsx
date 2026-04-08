@@ -233,10 +233,10 @@ export default function LoginForm() {
       </CardContent>
 
       <CardFooter className="justify-center border-t border-border/40 bg-muted/20 py-8 lg:py-10">
-        <p className="text-sm font-medium text-muted-foreground/80">
-          First-time pilot?{" "}
+        <p className="text-sm font-medium text-muted-foreground/80 text-center">
+          In-flight system? <br className="md:hidden" />
           <Link href="/register" className="text-primary font-bold hover:underline">
-            Register your cockpit
+            Request Admin Access
           </Link>
         </p>
       </CardFooter>
