@@ -17,7 +17,7 @@ export const MathText: React.FC<MathTextProps> = ({ text, className }) => {
 
   // Split text by block math ($$...$$) and inline math ($...$)
   // We use a regex that captures both, prioritized by block math
-  const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/g);
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
 
   return (
     <span className={className}>
